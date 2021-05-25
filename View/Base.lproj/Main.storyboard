@@ -27,7 +27,7 @@
         <!--Search-->
         <scene sceneID="pGc-iu-fGe">
             <objects>
-                <viewController id="yUW-Zv-edW" sceneMemberID="viewController">
+                <viewController id="yUW-Zv-edW" customClass="SearchViewController" customModule="Reciplease" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cND-34-AMY" userLabel="Global Search View">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
