@@ -9,7 +9,11 @@ import Foundation
 
 struct InfoEdamamRequest: Decodable {
     var count: Double
-    var hits: [Recipe]
+    var hits: [Hit]
+}
+
+struct Hit: Decodable {
+    var recipe: Recipe
 }
 
 struct Recipe: Decodable {
