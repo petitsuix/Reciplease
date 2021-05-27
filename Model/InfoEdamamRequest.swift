@@ -8,23 +8,43 @@
 import Foundation
 
 struct InfoEdamamRequest: Decodable {
-    var count: Double
-    var hits: [Hit]
-}
-
-struct Hit: Decodable {
-    var recipe: Recipe
+    let recipes: [Recipe]
+    
+    enum CodingKeys: String, CodingKey {
+        case recipes = "hits"
+    }
 }
 
 struct Recipe: Decodable {
-    var label: String
-    var image: String
-    var yield: Double
-    var ingredientLines: [String]
-    var ingredients: [Ingredient]
+    let name: String
+    let imageUrl: String?
+    let numberOfGuests: Double
+    let ingredients: [String]
+    let totalTime: Double?
+    
+    enum CodingKeys: String, CodingKey {
+        case recipe
+        case name = "label"
+        case imageUrl = "image"
+        case numberOfGuests = "yield"
+        case ingredients = "ingredientLines"
+        case totalTime
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let recipe = try container.nestedContainer(keyedBy: CodingKeys.self, forKey: .recipe)
+        name = try recipe.decode(String.self, forKey: .name)
+        imageUrl = try recipe.decode(String.self, forKey: .imageUrl)
+        ingredients = try recipe.decode([String].self, forKey: .ingredients)
+        numberOfGuests = try recipe.decode(Double.self, forKey: .numberOfGuests)
+        let decodedTotalTime = try recipe.decode(Double.self, forKey: .totalTime)
+        totalTime = decodedTotalTime == 0.0 ? nil : decodedTotalTime
+    }
 }
 
 struct Ingredient: Decodable {
-    var text: String
-    var weight: Double
+    let text: String
+    let weight: Double
+    let image: String?
 }

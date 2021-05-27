@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,7 +23,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6jd-kE-Wkj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="531" y="294"/>
+            <point key="canvasLocation" x="530" y="325"/>
         </scene>
         <!--Search-->
         <scene sceneID="pGc-iu-fGe">
@@ -63,6 +64,9 @@
                                         <state key="normal" title="Add">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="addIngredientButton:" destination="yUW-Zv-edW" eventType="touchUpInside" id="11X-md-EKV"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -78,6 +82,26 @@
                                     <constraint firstItem="dnI-w4-8Zu" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rmf-mh-CBZ" secondAttribute="trailing" constant="8" symbolic="YES" id="yk1-xd-sFY"/>
                                 </constraints>
                             </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ttH-HC-rUU">
+                                <rect key="frame" x="20" y="305" width="374" height="395"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1QH-Cj-eOn">
+                                <rect key="frame" x="83" y="718" width="248" height="73"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.42277748443185226" green="0.37990378637724204" blue="0.45584152918781728" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="Search recipes">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="searchRecipes:" destination="yUW-Zv-edW" eventType="touchUpInside" id="A6i-Lg-hho"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="aIl-cO-6QS"/>
                         <color key="backgroundColor" red="0.21294611690000001" green="0.19710689780000001" blue="0.19287389520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -88,6 +112,10 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Search" selectedImage="magnifyingglass" catalog="system" id="9Nk-HW-IGC"/>
+                    <connections>
+                        <outlet property="ingredientsListTextView" destination="ttH-HC-rUU" id="5SA-4W-ztS"/>
+                        <outlet property="searchTextField" destination="rmf-mh-CBZ" id="wI6-sZ-F3N"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f94-Va-1iy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -117,5 +145,11 @@
     <resources>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="star" catalog="system" width="128" height="116"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
