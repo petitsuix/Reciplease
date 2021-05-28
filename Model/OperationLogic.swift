@@ -10,7 +10,7 @@ import Foundation
 
 class OperationLogic {
     
-    var ingredient: String = ""
+    static var recipes: [Recipe] = []
     
     var ingredientsList: [String] = []
     
@@ -31,7 +31,6 @@ class OperationLogic {
     }
     
     func addIngredient(_ ingredient: String) {
-        guard searchIngredientsTextField != "" else { return notifyMissingIngredient() }
         ingredientsListTextView.append("• \(ingredient)\n")
         ingredientsList.append(ingredient)
     }
@@ -43,6 +42,10 @@ class OperationLogic {
     func cleanIngredientsList() {
         ingredientsListTextView = ""
         ingredientsList.removeAll()
+    }
+    
+    func browseRecipes() {
+        
     }
     
     private func notifyIngredientsListUpdated() {

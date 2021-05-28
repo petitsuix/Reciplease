@@ -8,6 +8,7 @@
 import Foundation
 
 struct InfoEdamamRequest: Decodable {
+    
     let recipes: [Recipe]
     
     enum CodingKeys: String, CodingKey {
@@ -17,14 +18,16 @@ struct InfoEdamamRequest: Decodable {
 
 struct Recipe: Decodable {
     let name: String
+    let recipeUrl: String
     let imageUrl: String?
     let numberOfGuests: Double
     let ingredients: [String]
     let totalTime: Double?
     
     enum CodingKeys: String, CodingKey {
-        case recipe
         case name = "label"
+        case recipeUrl = "url"
+        case recipe
         case imageUrl = "image"
         case numberOfGuests = "yield"
         case ingredients = "ingredientLines"
@@ -35,6 +38,7 @@ struct Recipe: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let recipe = try container.nestedContainer(keyedBy: CodingKeys.self, forKey: .recipe)
         name = try recipe.decode(String.self, forKey: .name)
+        recipeUrl = try recipe.decode(String.self, forKey: .recipeUrl)
         imageUrl = try recipe.decode(String.self, forKey: .imageUrl)
         ingredients = try recipe.decode([String].self, forKey: .ingredients)
         numberOfGuests = try recipe.decode(Double.self, forKey: .numberOfGuests)
