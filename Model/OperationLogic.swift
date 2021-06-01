@@ -44,10 +44,6 @@ class OperationLogic {
         ingredientsList.removeAll()
     }
     
-    func browseRecipes() {
-        
-    }
-    
     private func notifyIngredientsListUpdated() {
         let notificationName = NSNotification.Name(rawValue: "ingredients updated")
         let notification = Notification(name: notificationName)

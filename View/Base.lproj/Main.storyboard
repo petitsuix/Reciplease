@@ -101,12 +101,9 @@
                                 </constraints>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ttH-HC-rUU">
-                                <rect key="frame" x="20" y="290" width="374" height="400"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="400" id="KYf-6T-jzn"/>
-                                </constraints>
-                                <color key="textColor" systemColor="labelColor"/>
+                                <rect key="frame" x="20" y="290" width="374" height="392"/>
+                                <color key="backgroundColor" name="AccentColor White Black"/>
+                                <color key="textColor" name="AccentColor Black White"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -130,18 +127,18 @@
                             </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="aIl-cO-6QS"/>
-                        <color key="backgroundColor" red="0.21294611690000001" green="0.19710689780000001" blue="0.19287389520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="AccentColor White Black"/>
                         <constraints>
                             <constraint firstItem="hUb-Ja-l0D" firstAttribute="top" secondItem="aIl-cO-6QS" secondAttribute="top" constant="26" id="2q0-Uq-5uP"/>
                             <constraint firstItem="aIl-cO-6QS" firstAttribute="bottom" secondItem="1QH-Cj-eOn" secondAttribute="bottom" constant="27" id="8Nb-qS-JLg"/>
                             <constraint firstItem="aIl-cO-6QS" firstAttribute="trailing" secondItem="hUb-Ja-l0D" secondAttribute="trailing" id="AZh-Av-0gc"/>
                             <constraint firstItem="hUb-Ja-l0D" firstAttribute="leading" secondItem="aIl-cO-6QS" secondAttribute="leading" id="BOe-Qe-apo"/>
                             <constraint firstItem="1QH-Cj-eOn" firstAttribute="leading" relation="lessThanOrEqual" secondItem="aIl-cO-6QS" secondAttribute="leading" constant="56" id="Iyx-op-K6t"/>
-                            <constraint firstItem="1QH-Cj-eOn" firstAttribute="top" secondItem="ttH-HC-rUU" secondAttribute="bottom" constant="24" id="PLW-GK-U1X"/>
                             <constraint firstItem="ttH-HC-rUU" firstAttribute="leading" secondItem="aIl-cO-6QS" secondAttribute="leading" constant="20" id="PSE-TS-A85"/>
                             <constraint firstItem="AbW-dj-2it" firstAttribute="centerX" secondItem="1QH-Cj-eOn" secondAttribute="centerX" id="aJM-5i-QRx"/>
                             <constraint firstItem="AbW-dj-2it" firstAttribute="centerY" secondItem="1QH-Cj-eOn" secondAttribute="centerY" id="cAG-9a-uNd"/>
                             <constraint firstItem="aIl-cO-6QS" firstAttribute="bottom" secondItem="1QH-Cj-eOn" secondAttribute="bottom" constant="27" id="dVt-ca-BeK"/>
+                            <constraint firstItem="1QH-Cj-eOn" firstAttribute="top" secondItem="ttH-HC-rUU" secondAttribute="bottom" constant="32" id="ePp-D8-gXX"/>
                             <constraint firstItem="aIl-cO-6QS" firstAttribute="trailing" secondItem="ttH-HC-rUU" secondAttribute="trailing" constant="20" id="oDv-MO-w0G"/>
                             <constraint firstItem="aIl-cO-6QS" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="1QH-Cj-eOn" secondAttribute="trailing" constant="56" id="rSI-El-ADS"/>
                             <constraint firstItem="ttH-HC-rUU" firstAttribute="top" secondItem="hUb-Ja-l0D" secondAttribute="bottom" constant="16" id="vrw-VN-cee"/>
@@ -231,7 +228,13 @@
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="star" catalog="system" width="128" height="116"/>
         <namedColor name="AccentColor">
-            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </namedColor>
+        <namedColor name="AccentColor Black White">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </namedColor>
+        <namedColor name="AccentColor White Black">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

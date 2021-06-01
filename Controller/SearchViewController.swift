@@ -21,20 +21,38 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchActivityIndicator.isHidden = true
         let notificationName = NSNotification.Name(rawValue: "ingredients updated")
         NotificationCenter.default.addObserver(self, selector: #selector(ingredientsListUpdated), name: notificationName, object: nil)
         
         let notificationErrorName = NSNotification.Name(rawValue: "alert missing ingredient")
         NotificationCenter.default.addObserver(self, selector: #selector(showAlert), name: notificationErrorName, object: nil)
+        
+        searchActivityIndicator.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
     }
+    
+    func fetchRecipes() {
+        RecipeService.shared.fetchData(for: operationLogic.ingredientsListFormatted()) { result in
+            switch result {
+            case .success(let recipes):
+                print(recipes)
+                OperationLogic.recipes = recipes.recipes
+                self.dataRecipe = recipes
+                self.searchRecipesButton.isHidden = false
+                self.searchActivityIndicator.isHidden = true
+                self.performSegue(withIdentifier: "SearchToList", sender: nil) // créer methode pushRecipesList dans laquelle on aura une instantiation des storyboards
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     @IBAction func addIngredientButton(_ sender: Any) {
         if searchTextField.text == "" { showAlert(); return }
-        guard let ingredient = searchTextField.text else { return }
+        guard let ingredient = searchTextField.text else { return } // TODO: détailler
         operationLogic.addIngredient(ingredient)
         searchTextField.doneButtonTapped()
         operationLogic.cleanSearchBar()
@@ -43,21 +61,8 @@ class SearchViewController: UIViewController {
     @IBAction func searchRecipes(_ sender: Any) {
         searchRecipesButton.isHidden = true
         searchActivityIndicator.isHidden = false
-        RecipeService.shared.searchRecipes(for: operationLogic.ingredientsListFormatted()) { result in
-            switch result {
-            case .success(let recipes):
-                print(recipes)
-                OperationLogic.recipes = recipes.recipes
-                self.dataRecipe = recipes
-                self.searchRecipesButton.isHidden = false
-                self.searchActivityIndicator.isHidden = true
-                self.performSegue(withIdentifier: "SearchToList", sender: nil)
-            case .failure(let error):
-                print(error)
-            }
-        }
+        fetchRecipes()
     }
-    
     
     @objc func ingredientsListUpdated() {
         searchTextField.text = operationLogic.searchIngredientsTextField
@@ -73,5 +78,4 @@ class SearchViewController: UIViewController {
             dataController.dataRecipe = self.dataRecipe
         }
     }
-    
 }

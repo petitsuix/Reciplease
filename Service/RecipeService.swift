@@ -16,7 +16,7 @@ class RecipeService {
     
     let baseUrl = "https://api.edamam.com/search?"
     
-    func searchRecipes(for ingredients: String, completion: @escaping (Result<InfoEdamamRequest, AFError>) -> Void) {
+    func fetchData(for ingredients: String, completion: @escaping (Result<InfoEdamamRequest, AFError>) -> Void) {
         let url = "\(baseUrl)app_id=\(AppId.appId)&app_key=\(ApiKey.edamamKey)&q=\(ingredients)"
         let encodedUrl = url.replacingOccurrences(of: " ", with: "+")
         print(encodedUrl)
