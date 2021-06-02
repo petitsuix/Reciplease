@@ -10,6 +10,22 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Favorite-->
+        <scene sceneID="djv-Gn-BCv">
+            <objects>
+                <viewController id="qmM-Ux-HUx" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ctd-fS-IfF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="xV7-Ja-Al8"/>
+                        <color key="backgroundColor" red="0.21294611690000001" green="0.19710689780000001" blue="0.19287389520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Favorite" selectedImage="star" catalog="system" id="HJu-rD-q19"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6jd-kE-Wkj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="530" y="325"/>
+        </scene>
         <!--Item-->
         <scene sceneID="hEQ-mO-NJB">
             <objects>
@@ -200,26 +216,17 @@
                     </tabBar>
                     <connections>
                         <segue destination="PjL-HK-JCF" kind="relationship" relationship="viewControllers" id="SeE-Ue-aZG"/>
-                        <segue destination="QzK-mF-s3K" kind="relationship" relationship="viewControllers" id="lPX-GW-CoW"/>
+                        <segue destination="qmM-Ux-HUx" kind="relationship" relationship="viewControllers" id="lPX-GW-CoW"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1W7-5G-Pc6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-974" y="-8"/>
         </scene>
-        <!--Favorite-->
-        <scene sceneID="8V5-fg-gMG">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Favorite" id="QzK-mF-s3K" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="RUz-9h-GOw"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="P7f-Y0-37y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="530" y="325"/>
-        </scene>
     </scenes>
     <resources>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="star" catalog="system" width="128" height="116"/>
         <namedColor name="AccentColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </namedColor>

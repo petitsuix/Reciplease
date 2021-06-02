@@ -10,9 +10,10 @@ import Alamofire
 
 class SearchViewController: UIViewController {
     
-    var operationLogic = OperationLogic()
-    var dataRecipe: InfoEdamamRequest?
+ //   var operationLogic = OperationLogic()
     
+    var ingredientsArray: [String] = []
+    var recipes: [Recipe] = []
     
     @IBOutlet weak var searchTextField: UITextField! { didSet { searchTextField?.addDoneToolbar() } }
     @IBOutlet weak var ingredientsListTextView: UITextView!
@@ -21,12 +22,6 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let notificationName = NSNotification.Name(rawValue: "ingredients updated")
-        NotificationCenter.default.addObserver(self, selector: #selector(ingredientsListUpdated), name: notificationName, object: nil)
-        
-        let notificationErrorName = NSNotification.Name(rawValue: "alert missing ingredient")
-        NotificationCenter.default.addObserver(self, selector: #selector(showAlert), name: notificationErrorName, object: nil)
-        
         searchActivityIndicator.isHidden = true
     }
     
@@ -34,15 +29,34 @@ class SearchViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
     }
     
+    func ingredientsListFormatted() -> String {
+        return ingredientsArray.joined(separator: ",")
+    }
+    
+    func addIngredient(_ ingredient: String) {
+        ingredientsListTextView.text.append("• \(ingredient)\n")
+        ingredientsArray.append(ingredient)
+    }
+    
+    func cleanSearchBar() {
+        searchTextField.text = ""
+    }
+    
+    func cleanIngredientsList() {
+        // ingredientsArray.removeAll()
+    }
+    
     func fetchRecipes() {
-        RecipeService.shared.fetchData(for: operationLogic.ingredientsListFormatted()) { result in
+        searchRecipesButton.isHidden = true
+        searchActivityIndicator.isHidden = false
+        RecipeService.shared.fetchData(for: ingredientsListFormatted()) { result in
+            self.searchRecipesButton.isHidden = false
+            self.searchActivityIndicator.isHidden = true
             switch result {
-            case .success(let recipes):
-                print(recipes)
-                OperationLogic.recipes = recipes.recipes
-                self.dataRecipe = recipes
-                self.searchRecipesButton.isHidden = false
-                self.searchActivityIndicator.isHidden = true
+            case .success(let infoEdamamRequest):
+                print(infoEdamamRequest)
+                self.recipes = infoEdamamRequest.recipes
+                //
                 self.performSegue(withIdentifier: "SearchToList", sender: nil) // créer methode pushRecipesList dans laquelle on aura une instantiation des storyboards
             case .failure(let error):
                 print(error)
@@ -51,31 +65,22 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func addIngredientButton(_ sender: Any) {
-        if searchTextField.text == "" { showAlert(); return }
+        if searchTextField.text == "" { alert("Missing ingredient", "It seems you forgot to add one"); return }
         guard let ingredient = searchTextField.text else { return } // TODO: détailler
-        operationLogic.addIngredient(ingredient)
+        addIngredient(ingredient)
         searchTextField.doneButtonTapped()
-        operationLogic.cleanSearchBar()
+        cleanSearchBar()
     }
     
     @IBAction func searchRecipes(_ sender: Any) {
-        searchRecipesButton.isHidden = true
-        searchActivityIndicator.isHidden = false
         fetchRecipes()
-    }
-    
-    @objc func ingredientsListUpdated() {
-        searchTextField.text = operationLogic.searchIngredientsTextField
-        ingredientsListTextView.text = operationLogic.ingredientsListTextView
-    }
-    
-    @objc func showAlert() {
-        alert("Missing ingredient", "It seems you forgot to add one")
+        /// methode pushRecipeList() qui instancie controller
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let dataController = segue.destination as? RecipesListViewController {
-            dataController.dataRecipe = self.dataRecipe
+        if let recipeListViewController = segue.destination as? RecipesListViewController {
+            recipeListViewController.recipes = recipes
+            recipeListViewController.dataMode = .api
         }
     }
 }
