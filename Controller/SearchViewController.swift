@@ -23,13 +23,13 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         searchActivityIndicator.isHidden = true
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
     }
     
-    func ingredientsListFormatted() -> String {
+    override func viewWillAppear(_ animated: Bool) {
+    }
+    
+    private func ingredientsListFormatted() -> String {
         return ingredientsArray.joined(separator: ",")
     }
     
@@ -56,12 +56,23 @@ class SearchViewController: UIViewController {
             case .success(let infoEdamamRequest):
                 print(infoEdamamRequest)
                 self.recipes = infoEdamamRequest.recipes
-                //
-                self.performSegue(withIdentifier: "SearchToList", sender: nil) // créer methode pushRecipesList dans laquelle on aura une instantiation des storyboards
+                self.pushRecipesList()
+
+//                self.performSegue(withIdentifier: "SearchToList", sender: nil) // créer methode pushRecipesList dans laquelle on aura une instantiation des storyboards
             case .failure(let error):
                 print(error)
             }
         }
+    }
+    
+    func pushRecipesList() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        guard let recipesListViewController = storyboard.instantiateViewController(withIdentifier: "Recipes List View Controller") as? RecipesListViewController else { return }
+        recipesListViewController.recipes = recipes
+        recipesListViewController.dataMode = .api
+        recipesListViewController.modalPresentationStyle = .currentContext
+        self.present(recipesListViewController, animated: true)
     }
     
     @IBAction func addIngredientButton(_ sender: Any) {
@@ -74,13 +85,14 @@ class SearchViewController: UIViewController {
     
     @IBAction func searchRecipes(_ sender: Any) {
         fetchRecipes()
+        //pushRecipesList()
         /// methode pushRecipeList() qui instancie controller
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let recipeListViewController = segue.destination as? RecipesListViewController {
-            recipeListViewController.recipes = recipes
-            recipeListViewController.dataMode = .api
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if let recipeListViewController = segue.destination as? RecipesListViewController {
+//            recipeListViewController.recipes = recipes
+//            recipeListViewController.dataMode = .api
+//        }
+//    }
 }

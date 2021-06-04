@@ -21,19 +21,26 @@ enum DataMode {
     }
 }
 
-class RecipesListViewController: UIViewController { // pas resultat de recherche en particulier, faire searchlist et recipelist
+class RecipesListViewController: UIViewController, UINavigationBarDelegate { // pas resultat de recherche en particulier, faire searchlist et recipelist
     
     var operationLogic = OperationLogic()
     
     var recipes: [Recipe] = []
-    var dataMode: DataMode = .coreData
+    var dataMode: DataMode = .api
     
     @IBOutlet weak var resultsTableView: UITableView!
+    @IBOutlet weak var resultsNavigationBar: UINavigationBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.navigationController?.isNavigationBarHidden = false
         // title
+        resultsNavigationBar.delegate = self
+        let navItem = UINavigationItem()
+        navItem.title = "\(recipes.count) results"
+        navItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.goBack))
+        resultsNavigationBar.items = [navItem]
+        view.addSubview(resultsNavigationBar)
+
         title = dataMode.title
         resultsTableView.dataSource = self
         //if dataMode = coreData, lit la BDD, recipes = coreDataservice.loadRecipes
@@ -42,7 +49,10 @@ class RecipesListViewController: UIViewController { // pas resultat de recherche
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         resultsTableView.reloadData()
-        print("ON A RECHARGE LA DATA")
+    }
+    
+    @objc func goBack(){
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -60,7 +70,7 @@ extension RecipesListViewController: UITableViewDataSource, UITableViewDelegate 
         let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell", for: indexPath)
         let recipe = recipes[indexPath.row]
         cell.textLabel?.text = recipe.name
-        //ceel.recipe = recipe
+        //cell.recipe = recipe
         return cell
     }
 }
