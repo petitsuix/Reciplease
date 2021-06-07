@@ -16,12 +16,15 @@ class SearchViewController: UIViewController {
     var recipes: [Recipe] = []
     
     @IBOutlet weak var searchTextField: UITextField! { didSet { searchTextField?.addDoneToolbar() } }
+    @IBOutlet weak var addIngredientButton: UIButton!
     @IBOutlet weak var ingredientsListTextView: UITextView!
     @IBOutlet weak var searchActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var searchRecipesButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        addIngredientButton.roundingButtonCorners()
+        searchRecipesButton.roundingButtonCorners()
         searchActivityIndicator.isHidden = true
         self.navigationController?.isNavigationBarHidden = true
     }
@@ -68,14 +71,14 @@ class SearchViewController: UIViewController {
     func pushRecipesList() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        guard let recipesListViewController = storyboard.instantiateViewController(withIdentifier: "Recipes List View Controller") as? RecipesListViewController else { return }
+        guard let recipesListViewController = storyboard.instantiateViewController(withIdentifier: "Recipes List View Controller") as? RecipesListViewController else { return } // Instantiation
+        
         recipesListViewController.recipes = recipes
         recipesListViewController.dataMode = .api
-        recipesListViewController.modalPresentationStyle = .currentContext
-        self.present(recipesListViewController, animated: true)
+        navigationController?.pushViewController(recipesListViewController, animated: true)
     }
     
-    @IBAction func addIngredientButton(_ sender: Any) {
+    @IBAction func didPressAddButton(_ sender: Any) {
         if searchTextField.text == "" { alert("Missing ingredient", "It seems you forgot to add one"); return }
         guard let ingredient = searchTextField.text else { return } // TODO: détailler
         addIngredient(ingredient)
@@ -83,11 +86,12 @@ class SearchViewController: UIViewController {
         cleanSearchBar()
     }
     
-    @IBAction func searchRecipes(_ sender: Any) {
+    @IBAction func didPressSearchRecipesButton(_ sender: Any) {
         fetchRecipes()
         //pushRecipesList()
         /// methode pushRecipeList() qui instancie controller
     }
+    
     
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        if let recipeListViewController = segue.destination as? RecipesListViewController {

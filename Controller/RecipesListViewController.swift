@@ -21,9 +21,7 @@ enum DataMode {
     }
 }
 
-class RecipesListViewController: UIViewController, UINavigationBarDelegate { // pas resultat de recherche en particulier, faire searchlist et recipelist
-    
-    var operationLogic = OperationLogic()
+class RecipesListViewController: UIViewController, UINavigationBarDelegate {
     
     var recipes: [Recipe] = []
     var dataMode: DataMode = .api
@@ -33,16 +31,10 @@ class RecipesListViewController: UIViewController, UINavigationBarDelegate { // 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // title
-        resultsNavigationBar.delegate = self
-        let navItem = UINavigationItem()
-        navItem.title = "\(recipes.count) results"
-        navItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.dismissListViewController))
-        resultsNavigationBar.items = [navItem]
-        view.addSubview(resultsNavigationBar)
         
         title = dataMode.title
         resultsTableView.dataSource = self
+        resultsTableView.delegate = self
         //if dataMode = coreData, lit la BDD, recipes = coreDataservice.loadRecipes
     }
     
@@ -62,22 +54,43 @@ extension RecipesListViewController: UITableViewDataSource, UITableViewDelegate 
         return 1
     }
     
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath:  IndexPath) {
+//      let storyboard = UIStoryboard.init(name: "DetailsVC", bundle: nil)
+//      let detailsVC = storyboard.instantiateViewController(
+//                withIdentifier: "StoryboardId for viewcontroller set in storyboard") as?                                         UsersProfileViewController
+//       guard let name = usersArray[selectedRow!].firstLastName { else return }
+//       destinationVC.name = name
+//       self.presentViewController(destinationVC, animated: true, completion: nil)
+
+//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedRecipe = recipes[indexPath.row]
+        displayRecipeDetailFor(selectedRecipe)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return recipes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let recipe = recipes[indexPath.row]
-        
-        if let cellCustom = tableView.dequeueReusableCell(withIdentifier: "recipeCell") as? RecipeCell {
-            cellCustom.recipeNameLabel.text = recipe.name
-            cellCustom.ingredientsPreviewLabel.text = recipe.ingredients.joined(separator: ", ")
-            cellCustom.totalTimeLabel.text = "\(Float(recipe.totalTime ?? 15))"
-            return cellCustom
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell", for: indexPath)
-            return cell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell") as? RecipeCell else {
+            assertionFailure("Dequeue TableViewCell is of wrong type")
+            return UITableViewCell()
         }
+        cell.recipe = recipes[indexPath.row]
+        return cell
+    }
+    
+    private func displayRecipeDetailFor(_ recipe: Recipe) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+         guard let detailsViewController = storyboard.instantiateViewController(withIdentifier: "DetailsVC") as? DetailsViewController else { return }
+        detailsViewController.recipe = recipe
+        
+//       detailsViewController.recipeName.text = recipes[0].name
+      //  detailsViewController.recipes = recipes
+        navigationController?.pushViewController(detailsViewController, animated: true)
     }
 }
+
+
+/*   */
