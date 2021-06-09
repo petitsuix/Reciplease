@@ -20,11 +20,23 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(recipe)
+       // print(recipe)
+        recipeName.text = recipe?.name
+        ingredients.text = recipe?.ingredients.joined(separator: ", ")
+        let navBarRightItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(addToFavorites))
+        self.navigationItem.rightBarButtonItem = navBarRightItem
         // Do any additional setup after loading the view.
     }
     
-
+    @objc func addToFavorites() {
+        if self.navigationItem.rightBarButtonItem?.image == UIImage(systemName: "heart.fill") {
+            self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart")
+        } else {
+            self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")
+        }
+    }
+    
+    
     /*
     // MARK: - Navigation
 

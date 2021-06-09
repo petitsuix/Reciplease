@@ -8,8 +8,8 @@
 import UIKit
 
 extension UIButton {
-    func roundingButtonCorners() {
+    func roundingButtonCorners(radius: Int) {
     self.layer.masksToBounds = true
-    self.layer.cornerRadius = 5
+        self.layer.cornerRadius = CGFloat(radius)
     }
 }

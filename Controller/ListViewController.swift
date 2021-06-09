@@ -21,13 +21,12 @@ enum DataMode {
     }
 }
 
-class RecipesListViewController: UIViewController, UINavigationBarDelegate {
+class ListViewController: UIViewController, UINavigationBarDelegate {
     
     var recipes: [Recipe] = []
     var dataMode: DataMode = .api
     
     @IBOutlet weak var resultsTableView: UITableView!
-    @IBOutlet weak var resultsNavigationBar: UINavigationBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,21 +47,12 @@ class RecipesListViewController: UIViewController, UINavigationBarDelegate {
     }
 }
 
-extension RecipesListViewController: UITableViewDataSource, UITableViewDelegate {
+extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     // faire les cellCustom dans le code, faire recipeCell
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath:  IndexPath) {
-//      let storyboard = UIStoryboard.init(name: "DetailsVC", bundle: nil)
-//      let detailsVC = storyboard.instantiateViewController(
-//                withIdentifier: "StoryboardId for viewcontroller set in storyboard") as?                                         UsersProfileViewController
-//       guard let name = usersArray[selectedRow!].firstLastName { else return }
-//       destinationVC.name = name
-//       self.presentViewController(destinationVC, animated: true, completion: nil)
 
-//    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedRecipe = recipes[indexPath.row]
         displayRecipeDetailFor(selectedRecipe)
@@ -82,12 +72,16 @@ extension RecipesListViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     private func displayRecipeDetailFor(_ recipe: Recipe) {
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
          guard let detailsViewController = storyboard.instantiateViewController(withIdentifier: "DetailsVC") as? DetailsViewController else { return }
         detailsViewController.recipe = recipe
         
 //       detailsViewController.recipeName.text = recipes[0].name
       //  detailsViewController.recipes = recipes
+        navigationController?.isNavigationBarHidden = false
+       
+        
         navigationController?.pushViewController(detailsViewController, animated: true)
     }
 }

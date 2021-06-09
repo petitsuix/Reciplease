@@ -23,8 +23,8 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addIngredientButton.roundingButtonCorners()
-        searchRecipesButton.roundingButtonCorners()
+        addIngredientButton.roundingButtonCorners(radius: 5)
+        searchRecipesButton.roundingButtonCorners(radius: 15)
         searchActivityIndicator.isHidden = true
         self.navigationController?.isNavigationBarHidden = true
     }
@@ -71,10 +71,11 @@ class SearchViewController: UIViewController {
     func pushRecipesList() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        guard let recipesListViewController = storyboard.instantiateViewController(withIdentifier: "Recipes List View Controller") as? RecipesListViewController else { return } // Instantiation
+        guard let recipesListViewController = storyboard.instantiateViewController(withIdentifier: "List View Controller") as? ListViewController else { return } // Instantiation
         
         recipesListViewController.recipes = recipes
         recipesListViewController.dataMode = .api
+        navigationController?.isNavigationBarHidden = false
         navigationController?.pushViewController(recipesListViewController, animated: true)
     }
     
