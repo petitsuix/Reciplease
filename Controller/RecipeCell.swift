@@ -30,6 +30,7 @@ class RecipeCell: UITableViewCell {
         numberOfGuestsAndTime.layer.borderWidth = 3
         numberOfGuestsAndTime.layer.borderColor = #colorLiteral(red: 0.9662106633, green: 0.8062962715, blue: 0.5210644391, alpha: 1)
         
+        numberOfGuestsCount.text = "\(Int(recipe?.numberOfGuests ?? 4))"
         recipeNameLabel.text = recipe?.name
         ingredientsPreviewLabel.text = recipe?.ingredients.joined(separator: ", ")
         totalTimeLabel.text = "\(Int(recipe?.totalTime ?? 15))mn"

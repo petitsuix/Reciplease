@@ -21,12 +21,57 @@ enum DataMode {
     }
 }
 
+enum State<Data> {
+    case loading
+    case empty
+    case error
+    case showData(Data)
+}
+
 class ListViewController: UIViewController, UINavigationBarDelegate {
     
-    var recipes: [Recipe] = []
-    var dataMode: DataMode = .api
-    
+    var recipes: [Recipe] = [] // peut-être poser ici un didSet qui check si recipes est empty
+    var dataMode: DataMode = .coreData
+    var storageService = StorageService()
+    var viewState: State<[Recipe]> = .loading {
+        didSet {
+            resetState()
+            switch viewState {
+            case .loading :
+               // searchRecipesButton.isHidden = true
+               // searchActivityIndicator.isHidden = false
+            case .empty :
+                // afficher une petite vue ou label ou alerte pour signifier qu'il n'y a rien
+            case .error :
+                // présenter une alerte
+            case .showData(let recipes) :
+                resultsTableView.reloadData()
+            }
+        }
+    }
+    private func resetState() {
+        
+    }
     @IBOutlet weak var resultsTableView: UITableView!
+    
+    func fetchRecipes() {
+        viewState = .loading
+        RecipeService.shared.fetchData(for: "") { result in
+            switch result {
+            case .success(let infoEdamamRequest) where infoEdamamRequest.recipes.isEmpty :
+                self.viewState = .empty
+            case .success(let infoEdamamRequest):
+                print(infoEdamamRequest)
+                self.viewState = .showData(infoEdamamRequest.recipes)
+                self.recipes = infoEdamamRequest.recipes
+                self.pushRecipesList()
+
+//                self.performSegue(withIdentifier: "SearchToList", sender: nil) // créer methode pushRecipesList dans laquelle on aura une instantiation des storyboards
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +80,13 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         resultsTableView.dataSource = self
         resultsTableView.delegate = self
         //if dataMode = coreData, lit la BDD, recipes = coreDataservice.loadRecipes
+        if dataMode == .coreData {
+            do {
+                recipes = try storageService.loadRecipes()
+            } catch {
+                print(error)
+            }
+        } // mettre dans le viewwillappear
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,6 +122,8 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         cell.recipe = recipes[indexPath.row]
         return cell
     }
+    
+    
     
     private func displayRecipeDetailFor(_ recipe: Recipe) {
         

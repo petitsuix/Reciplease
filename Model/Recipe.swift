@@ -47,6 +47,18 @@ struct Recipe: Decodable {
     }
 }
 
+extension Recipe {
+    init(from recipeEntity: RecipesEntity) {
+        self.name = recipeEntity.name ?? ""
+        self.recipeUrl = recipeEntity.recipeUrl ?? ""
+        self.imageUrl = recipeEntity.imageUrl ?? ""
+        self.ingredients = []
+//        self.ingredients = recipeEntity.ingredients // faire l'inverse de joined()
+        self.numberOfGuests = recipeEntity.numberOfGuests
+        self.totalTime = recipeEntity.totalTime
+    }
+}
+
 struct Ingredient: Decodable {
     let text: String
     let weight: Double

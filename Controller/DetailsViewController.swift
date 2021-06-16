@@ -14,37 +14,75 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var ingredients: UITextField!
     @IBOutlet weak var getDirectionsButton: UIButton!
     
+    // let viewContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     var recipes: [Recipe] = []
     var recipe: Recipe?
-    
+    var isRecipeFavorite = false
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
        // print(recipe)
+//        fetchFavoriteState()
+        setUpFavoriteButton()
+        // mettre dans methode setUpView()
         recipeName.text = recipe?.name
         ingredients.text = recipe?.ingredients.joined(separator: ", ")
-        let navBarRightItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(addToFavorites))
-        self.navigationItem.rightBarButtonItem = navBarRightItem
-        // Do any additional setup after loading the view.
+        
     }
     
-    @objc func addToFavorites() {
-        if self.navigationItem.rightBarButtonItem?.image == UIImage(systemName: "heart.fill") {
-            self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart")
-        } else {
-            self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")
+    private func addToFavorite() {
+        guard let recipe = recipe else { return }
+        do {
+            try StorageService().saveRecipe(recipe)
+            fetchFavoriteState()
+        
+        } catch {
+            print(error) // créer une vrai uialert "pasde sauvegade possible"
         }
     }
     
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func removeFromFavorite() {
+//        guard let recipe = recipe else { return }
+//        do {
+//            try StorageService().deleteRecipe(recipe)
+//            fetchFavoriteState()
+//
+//        } catch {
+//            print(error)
+//        }
     }
-    */
+    
+    private func fetchFavoriteState() {
+        isRecipeFavorite = true
+    }
+    
+    private func setUpFavoriteButton() {
 
+        let navBarRightItem = UIBarButtonItem(
+            image: UIImage(systemName: isRecipeFavorite ? "heart.fill" : "heart"),
+            style: .plain,
+            target: self,
+            action: #selector(toggleFavorite))
+        navigationItem.rightBarButtonItem = navBarRightItem
+    }
+    
+    @objc func toggleFavorite() {
+        // vérifie si c'est en favoris, add to favorite ou remove from favorite <- gère l'entity
+        if isRecipeFavorite == true {
+            // suppression du favori
+            navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart")
+            removeFromFavorite()
+            isRecipeFavorite = false
+        } else if isRecipeFavorite == false {
+            // ajout du favori
+            navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")
+            addToFavorite()
+            isRecipeFavorite = true
+        }
+    }
+    
+    @objc func openRecipeWebsite() {} // voir methode safari, prensent()
+    
 }

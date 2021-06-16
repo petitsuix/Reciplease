@@ -20,6 +20,7 @@ class RecipeService {
         let url = "\(baseUrl)app_id=\(AppId.appId)&app_key=\(ApiKey.edamamKey)&q=\(ingredients)"
         let encodedUrl = url.replacingOccurrences(of: " ", with: "+")
         print(encodedUrl)
+        // sortir la session et default
         Session.default.request(encodedUrl).validate().responseDecodable(of: InfoEdamamRequest.self) { (response) in
             completion(response.result)
         }
