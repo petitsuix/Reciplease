@@ -62,6 +62,7 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         super.viewDidLoad()
         
         title = dataMode.title
+        
         resultsTableView.dataSource = self
         resultsTableView.delegate = self
     }
@@ -123,12 +124,22 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell") as? RecipeCell else {
-            assertionFailure("Dequeue TableViewCell is of wrong type")
-            return UITableViewCell()
+        // returning the cell depending on dataMode
+        if dataMode == .api {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell") as? RecipeCell else {
+                assertionFailure("Dequeue TableViewCell is of wrong type")
+                return UITableViewCell()
+            }
+            cell.recipe = recipes[indexPath.row]
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "favoriteCell") as? FavoriteCell else {
+                assertionFailure("Dequeue TableViewCell is of wrong type")
+                return UITableViewCell()
+            }
+            cell.recipe = recipes[indexPath.row]
+            return cell
         }
-        cell.recipe = recipes[indexPath.row]
-        return cell
     }
     
     
