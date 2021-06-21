@@ -30,6 +30,7 @@ enum State<Data> {
 
 class ListViewController: UIViewController, UINavigationBarDelegate {
     
+    var ingredients: String = ""
     var recipes: [Recipe] = [] // peut-être poser ici un didSet qui check si recipes est empty
     var dataMode: DataMode = .coreData
     var storageService = StorageService()
@@ -40,23 +41,53 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
             case .loading :
                // searchRecipesButton.isHidden = true
                // searchActivityIndicator.isHidden = false
+            print("loading")
             case .empty :
                 // afficher une petite vue ou label ou alerte pour signifier qu'il n'y a rien
+            print("empty")
             case .error :
-                // présenter une alerte
+                print("error")// présenter une alerte
             case .showData(let recipes) :
+                self.recipes = recipes
                 resultsTableView.reloadData()
             }
         }
     }
-    private func resetState() {
-        
-    }
+
+    
     @IBOutlet weak var resultsTableView: UITableView!
+    
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        title = dataMode.title
+        resultsTableView.dataSource = self
+        resultsTableView.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        resultsTableView.reloadData()
+        if dataMode == .coreData {
+            do {
+                recipes = try storageService.loadRecipes()
+            } catch {
+                print(error)
+            }
+        } else {
+            fetchRecipes()
+        } // mettre dans le viewwillappear
+        resultsTableView.reloadData()
+
+    }
+    
+    private func resetState() {
+    }
     
     func fetchRecipes() {
         viewState = .loading
-        RecipeService.shared.fetchData(for: "") { result in
+        RecipeService.shared.fetchData(for: ingredients) { result in
             switch result {
             case .success(let infoEdamamRequest) where infoEdamamRequest.recipes.isEmpty :
                 self.viewState = .empty
@@ -64,35 +95,12 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
                 print(infoEdamamRequest)
                 self.viewState = .showData(infoEdamamRequest.recipes)
                 self.recipes = infoEdamamRequest.recipes
-                self.pushRecipesList()
-
-//                self.performSegue(withIdentifier: "SearchToList", sender: nil) // créer methode pushRecipesList dans laquelle on aura une instantiation des storyboards
             case .failure(let error):
                 print(error)
             }
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        title = dataMode.title
-        resultsTableView.dataSource = self
-        resultsTableView.delegate = self
-        //if dataMode = coreData, lit la BDD, recipes = coreDataservice.loadRecipes
-        if dataMode == .coreData {
-            do {
-                recipes = try storageService.loadRecipes()
-            } catch {
-                print(error)
-            }
-        } // mettre dans le viewwillappear
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        resultsTableView.reloadData()
-    }
     
     @objc func dismissListViewController(){
         dismiss(animated: true, completion: nil)

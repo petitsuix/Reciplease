@@ -49,30 +49,11 @@ class SearchViewController: UIViewController {
         // ingredientsArray.removeAll()
     }
     
-    func fetchRecipes() {
-        searchRecipesButton.isHidden = true
-        searchActivityIndicator.isHidden = false
-        RecipeService.shared.fetchData(for: ingredientsListFormatted()) { result in
-            self.searchRecipesButton.isHidden = false
-            self.searchActivityIndicator.isHidden = true
-            switch result {
-            case .success(let infoEdamamRequest):
-                print(infoEdamamRequest)
-                self.recipes = infoEdamamRequest.recipes
-                self.pushRecipesList()
-
-//                self.performSegue(withIdentifier: "SearchToList", sender: nil) // créer methode pushRecipesList dans laquelle on aura une instantiation des storyboards
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
     func pushRecipesList() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         guard let recipesListViewController = storyboard.instantiateViewController(withIdentifier: "List View Controller") as? ListViewController else { return } // Instantiation
-        
+        recipesListViewController.ingredients = ingredientsListFormatted()
         recipesListViewController.recipes = recipes
         recipesListViewController.dataMode = .api
         navigationController?.isNavigationBarHidden = false
@@ -88,16 +69,6 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func didPressSearchRecipesButton(_ sender: Any) {
-        fetchRecipes()
-        //pushRecipesList()
-        /// methode pushRecipeList() qui instancie controller
+        pushRecipesList()
     }
-    
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let recipeListViewController = segue.destination as? RecipesListViewController {
-//            recipeListViewController.recipes = recipes
-//            recipeListViewController.dataMode = .api
-//        }
-//    }
 }

@@ -76,9 +76,9 @@ class StorageService {
         }
         
         // utiliser le title de la recette pour l'identifier
-        let recipeEntity = RecipesEntity(context: viewContext)
-        if recipe.name == recipeEntity.name {
+//        let recipeEntity = RecipesEntity(context: viewContext)
+//        if recipe.name == recipeEntity.name {
             //trouver comment remove la recipe
-        }
+        // }
     }
 }
