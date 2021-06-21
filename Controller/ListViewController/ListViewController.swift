@@ -30,21 +30,23 @@ enum State<Data> {
 
 class ListViewController: UIViewController, UINavigationBarDelegate {
     
+    // MARK: - Properties
     var ingredients: String = ""
     var recipes: [Recipe] = [] // peut-être poser ici un didSet qui check si recipes est empty
     var dataMode: DataMode = .coreData
     var storageService = StorageService()
+    
     var viewState: State<[Recipe]> = .loading {
         didSet {
             resetState()
             switch viewState {
             case .loading :
-               // searchRecipesButton.isHidden = true
-               // searchActivityIndicator.isHidden = false
-            print("loading")
+                // searchRecipesButton.isHidden = true
+                // searchActivityIndicator.isHidden = false
+                print("loading")
             case .empty :
                 // afficher une petite vue ou label ou alerte pour signifier qu'il n'y a rien
-            print("empty")
+                print("empty")
             case .error :
                 print("error")// présenter une alerte
             case .showData(let recipes) :
@@ -53,11 +55,11 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
             }
         }
     }
-
     
     @IBOutlet weak var resultsTableView: UITableView!
     
-
+    
+    // MARK: - View life cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -69,7 +71,7 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        resultsTableView.reloadData()
+        //        resultsTableView.reloadData()
         if dataMode == .coreData {
             do {
                 recipes = try storageService.loadRecipes()
@@ -80,8 +82,10 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
             fetchRecipes()
         } // mettre dans le viewwillappear
         resultsTableView.reloadData()
-
+        
     }
+    
+    // MARK: - Methods
     
     private func resetState() {
     }
@@ -102,18 +106,28 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         }
     }
     
+    private func displayRecipeDetailFor(_ recipe: Recipe) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let detailsViewController = storyboard.instantiateViewController(withIdentifier: "DetailsVC") as? DetailsViewController else { return }
+        detailsViewController.recipe = recipe
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.pushViewController(detailsViewController, animated: true)
+    }
+    
     
     @objc func dismissListViewController(){
         dismiss(animated: true, completion: nil)
     }
 }
 
+
+// MARK: - TableView
 extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     // faire les cellCustom dans le code, faire recipeCell
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedRecipe = recipes[indexPath.row]
         displayRecipeDetailFor(selectedRecipe)
@@ -142,22 +156,17 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    
-    
-    private func displayRecipeDetailFor(_ recipe: Recipe) {
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-         guard let detailsViewController = storyboard.instantiateViewController(withIdentifier: "DetailsVC") as? DetailsViewController else { return }
-        detailsViewController.recipe = recipe
-        
-//       detailsViewController.recipeName.text = recipes[0].name
-      //  detailsViewController.recipes = recipes
-        navigationController?.isNavigationBarHidden = false
-       
-        
-        navigationController?.pushViewController(detailsViewController, animated: true)
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the recipe in the core data "memory"
+            do {
+                try storageService.deleteRecipe(recipes[indexPath.row])
+            } catch  {
+                print("error")
+            }
+            // Then delete the row from the data source
+            recipes.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
 }
-
-
-/*   */

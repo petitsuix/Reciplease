@@ -84,7 +84,7 @@
                                     <constraint firstItem="dnI-w4-8Zu" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rmf-mh-CBZ" secondAttribute="trailing" constant="8" symbolic="YES" id="yk1-xd-sFY"/>
                                 </constraints>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ttH-HC-rUU">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ttH-HC-rUU">
                                 <rect key="frame" x="20" y="290" width="374" height="392"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -109,6 +109,15 @@
                                 <rect key="frame" x="188.5" y="731.5" width="37" height="37"/>
                                 <color key="color" name="AccentColor"/>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UNa-yr-zLr">
+                                <rect key="frame" x="153" y="652" width="108" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                <state key="normal" title="Clear list"/>
+                                <connections>
+                                    <action selector="didPressClearListButton:" destination="yUW-Zv-edW" eventType="touchUpInside" id="f26-mc-ANO"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="aIl-cO-6QS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -140,7 +149,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f94-Va-1iy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1257" y="-328"/>
+            <point key="canvasLocation" x="1256.521739130435" y="-328.125"/>
         </scene>
         <!--List View Controller-->
         <scene sceneID="TgU-Ug-ybM">
@@ -151,7 +160,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ctn-Tw-Jhy">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="recipeCell" rowHeight="160" id="edj-TJ-fMz" customClass="RecipeCell" customModule="Reciplease" customModuleProvider="target">
@@ -259,7 +268,7 @@
                         <constraints>
                             <constraint firstItem="ctn-Tw-Jhy" firstAttribute="centerX" secondItem="9hJ-On-kxF" secondAttribute="centerX" id="3bC-e0-T4Z"/>
                             <constraint firstItem="ctn-Tw-Jhy" firstAttribute="leading" secondItem="lVM-4r-dLC" secondAttribute="leading" id="GvC-U9-HeI"/>
-                            <constraint firstItem="ctn-Tw-Jhy" firstAttribute="top" secondItem="lVM-4r-dLC" secondAttribute="top" constant="44" id="NuD-JJ-J1B"/>
+                            <constraint firstItem="ctn-Tw-Jhy" firstAttribute="top" secondItem="lVM-4r-dLC" secondAttribute="top" id="NuD-JJ-J1B"/>
                             <constraint firstItem="ctn-Tw-Jhy" firstAttribute="bottom" secondItem="lVM-4r-dLC" secondAttribute="bottom" id="c5R-qo-Vey"/>
                             <constraint firstItem="ctn-Tw-Jhy" firstAttribute="bottom" secondItem="lVM-4r-dLC" secondAttribute="bottom" id="jn7-Pf-uCH"/>
                         </constraints>
@@ -381,6 +390,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

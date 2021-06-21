@@ -8,7 +8,7 @@
 import UIKit
 
 class RecipeCell: UITableViewCell {
-
+    
     @IBOutlet weak var recipeNameLabel: UILabel!
     @IBOutlet weak var ingredientsPreviewLabel: UILabel!
     @IBOutlet weak var numberOfGuestsCount: UILabel!
@@ -24,7 +24,6 @@ class RecipeCell: UITableViewCell {
     }
     
     private func configureCell() {
-        
         numberOfGuestsAndTime.layer.masksToBounds = true
         numberOfGuestsAndTime.layer.cornerRadius = 5
         numberOfGuestsAndTime.layer.borderWidth = 3
@@ -41,11 +40,11 @@ class RecipeCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
-
+    
 }

@@ -28,11 +28,8 @@ class StorageService {
         } catch {
             throw error
         }
-        
         //convertir en boucle et implémenter le loadrecipes et favorites
         
-//        for recipes in recipeEntities {
-//        }
         
         let recipes = recipeEntities.map { (recipeEntity) -> Recipe in
             return Recipe(from: recipeEntity)
@@ -69,16 +66,13 @@ class StorageService {
         do {
             recipeEntities = try viewContext.fetch(fetchRequest)
             recipeEntities.forEach { (recipeEntity) in
-                viewContext.delete(recipeEntity) // save une fois que c'est supprimé
+                viewContext.delete(recipeEntity)
             }
+            // save une fois que c'est supprimé
+            try viewContext.save()
         } catch {
             throw error
         }
         
-        // utiliser le title de la recette pour l'identifier
-//        let recipeEntity = RecipesEntity(context: viewContext)
-//        if recipe.name == recipeEntity.name {
-            //trouver comment remove la recipe
-        // }
     }
 }

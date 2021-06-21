@@ -10,10 +10,9 @@ import Alamofire
 
 class SearchViewController: UIViewController {
     
- //   var operationLogic = OperationLogic()
-    
-    var ingredientsArray: [String] = []
-    var recipes: [Recipe] = []
+    // MARK: - Properties
+    private var ingredientsArray: [String] = []
+    private var recipes: [Recipe] = []
     
     @IBOutlet weak var searchTextField: UITextField! { didSet { searchTextField?.addDoneToolbar() } }
     @IBOutlet weak var addIngredientButton: UIButton!
@@ -21,6 +20,8 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var searchActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var searchRecipesButton: UIButton!
     
+    
+    // MARK: - View life cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         addIngredientButton.roundingButtonCorners(radius: 5)
@@ -29,27 +30,22 @@ class SearchViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-    }
     
+    // MARK: - Methods
     private func ingredientsListFormatted() -> String {
         return ingredientsArray.joined(separator: ",")
     }
     
-    func addIngredient(_ ingredient: String) {
+    private func addIngredient(_ ingredient: String) {
         ingredientsListTextView.text.append("• \(ingredient)\n")
         ingredientsArray.append(ingredient)
     }
     
-    func cleanSearchBar() {
+    private func cleanSearchBar() {
         searchTextField.text = ""
     }
     
-    func cleanIngredientsList() {
-        // ingredientsArray.removeAll()
-    }
-    
-    func pushRecipesList() {
+    private func pushRecipesList() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         guard let recipesListViewController = storyboard.instantiateViewController(withIdentifier: "List View Controller") as? ListViewController else { return } // Instantiation
@@ -60,15 +56,25 @@ class SearchViewController: UIViewController {
         navigationController?.pushViewController(recipesListViewController, animated: true)
     }
     
+    
+    // MARK: - IBAction methods
     @IBAction func didPressAddButton(_ sender: Any) {
-        if searchTextField.text == "" { alert("Missing ingredient", "It seems you forgot to add one"); return }
+        if searchTextField.text == "" { alert("Missing ingredient", "Some characters are missing..."); return }
         guard let ingredient = searchTextField.text else { return } // TODO: détailler
         addIngredient(ingredient)
         searchTextField.doneButtonTapped()
         cleanSearchBar()
     }
     
+    @IBAction func didPressClearListButton(_ sender: Any) {
+        ingredientsArray.removeAll()
+        ingredientsListTextView.text = ""
+    }
+    
     @IBAction func didPressSearchRecipesButton(_ sender: Any) {
+        if ingredientsArray.isEmpty {
+            return alert("Something's missing", "You must add at least one ingredient")
+        }
         pushRecipesList()
     }
 }
