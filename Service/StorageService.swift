@@ -6,17 +6,16 @@
 //
 
 import CoreData
-
 class StorageService {
     
+    static let sharedStorageService = StorageService()
+
     let viewContext: NSManagedObjectContext
 
-    init(persistentContainer: NSPersistentContainer = AppDelegate.persistentContainer) {
+    private init(persistentContainer: NSPersistentContainer = AppDelegate.persistentContainer) {
         // passer un persistentContainer par défaut
         self.viewContext = persistentContainer.viewContext
     }
-
-    
     
     func loadRecipes() throws -> [Recipe] {
 //     requete coreData, retourne objet recipeEntity converti en recipe dès que c'est loadé

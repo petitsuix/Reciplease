@@ -34,7 +34,6 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
     var ingredients: String = ""
     var recipes: [Recipe] = [] // peut-être poser ici un didSet qui check si recipes est empty
     var dataMode: DataMode = .coreData
-    var storageService = StorageService()
     
     var viewState: State<[Recipe]> = .loading {
         didSet {
@@ -74,7 +73,7 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         //        resultsTableView.reloadData()
         if dataMode == .coreData {
             do {
-                recipes = try storageService.loadRecipes()
+                recipes = try StorageService.sharedStorageService.loadRecipes()
             } catch {
                 print(error)
             }
@@ -137,30 +136,24 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         return recipes.count
     }
     
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // returning the cell depending on dataMode
-        if dataMode == .api {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell") as? RecipeCell else {
-                assertionFailure("Dequeue TableViewCell is of wrong type")
-                return UITableViewCell()
-            }
-            cell.recipe = recipes[indexPath.row]
-            return cell
-        } else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "favoriteCell") as? FavoriteCell else {
-                assertionFailure("Dequeue TableViewCell is of wrong type")
-                return UITableViewCell()
-            }
-            cell.recipe = recipes[indexPath.row]
-            return cell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell") as? RecipeCell else {
+            assertionFailure("Dequeue TableViewCell is of wrong type")
+            return UITableViewCell()
         }
+        cell.recipe = recipes[indexPath.row]
+        return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard dataMode == .coreData else { return }
         if editingStyle == .delete {
             // Delete the recipe in the core data "memory"
             do {
-                try storageService.deleteRecipe(recipes[indexPath.row])
+                try StorageService.sharedStorageService.deleteRecipe(recipes[indexPath.row])
             } catch  {
                 print("error")
             }

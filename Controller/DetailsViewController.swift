@@ -25,35 +25,38 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // mettre dans methode setUpView()
-        fetchFavoriteState()
-        setUpFavoriteButton()
-        recipeName.text = recipe?.name
-        ingredients.text = recipe?.ingredients.joined(separator: ", ") // transformer ces deux lignes en une méthode
+        setUpView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        // Ne pas oublier super si utilisé
+        super.viewWillAppear(animated)
+        fetchFavoriteState()
+        setUpFavoriteButton()
     }
     
     
     // MARK: - Methods
     
+    private func setUpView() {
+        recipeName.text = recipe?.name
+        ingredients.text = recipe?.ingredients.joined(separator: ", ")
+    }
+    
     private func addToFavorite() {
         guard let recipe = recipe else { return }
         do {
-            try StorageService().saveRecipe(recipe)
+            try StorageService.sharedStorageService.saveRecipe(recipe)
             fetchFavoriteState()
             
         } catch {
-            print(error) // créer une vrai uialert "pasde sauvegade possible"
+            print(error) // créer une vrai uialert "pas de sauvegade possible"
         }
     }
     
     private func removeFromFavorite() {
         guard let recipe = recipe else { return }
         do {
-            try StorageService().deleteRecipe(recipe)
+            try StorageService.sharedStorageService.deleteRecipe(recipe)
             
             //            fetchFavoriteState()
             isRecipeFavorite = false
@@ -65,7 +68,7 @@ class DetailsViewController: UIViewController {
     
     private func fetchFavoriteState() {
         guard let recipe = recipe else { return }
-        let recipes = try? StorageService().loadRecipes()
+        let recipes = try? StorageService.sharedStorageService.loadRecipes()
         guard let _ = recipes?.first(where: { $0 == recipe }) else { return }
         isRecipeFavorite = true
     }

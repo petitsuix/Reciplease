@@ -21,30 +21,13 @@
                                 <rect key="frame" x="0.0" y="101" width="414" height="698"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="favoriteCell" rowHeight="160" id="E1E-db-CLN" userLabel="favoriteCell" customClass="FavoriteCell" customModule="Reciplease" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="recipeCell" rowHeight="160" id="E1E-db-CLN" userLabel="favoriteCell" customClass="RecipeCell" customModule="Reciplease" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="160"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="E1E-db-CLN" id="IQo-aa-oSs">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="160"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recipe name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eZW-S0-MEc">
-                                                    <rect key="frame" x="20" y="67" width="244" height="27"/>
-                                                    <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="20"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottomMargin" secondItem="eZW-S0-MEc" secondAttribute="bottom" constant="55" id="JgS-Mk-Eul"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="eZW-S0-MEc" secondAttribute="trailing" constant="130" id="SO7-pQ-SfI"/>
-                                                <constraint firstItem="eZW-S0-MEc" firstAttribute="leading" secondItem="IQo-aa-oSs" secondAttribute="leadingMargin" id="jOO-77-1l1"/>
-                                                <constraint firstItem="eZW-S0-MEc" firstAttribute="top" secondItem="IQo-aa-oSs" secondAttribute="topMargin" constant="56" id="jsR-iW-s4s"/>
-                                            </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="recipeName" destination="eZW-S0-MEc" id="26U-Td-Hn4"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
