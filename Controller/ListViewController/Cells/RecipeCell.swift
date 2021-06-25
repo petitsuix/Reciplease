@@ -16,8 +16,10 @@ class RecipeCell: UITableViewCell {
     var totalTimeLabel = UILabel()
     var cellBackgroundImage = UIImageView()
     var numberOfGuestsAndTime = UIView()
+    var nameAndIngredientsStackView = UIStackView()
     
-//    var cellView = UIView()
+    
+    //    var cellView = UIView()
     
     var recipe: Recipe? {
         didSet {
@@ -28,6 +30,7 @@ class RecipeCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         configureCell()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -41,12 +44,12 @@ class RecipeCell: UITableViewCell {
         // faire if let si on connait pas ces valeurs, ne pas afficher ou unknown
         numberOfGuestsCount.text = "\(Int(recipe?.numberOfGuests ?? 4))"
         totalTimeLabel.text = "\(Int(recipe?.totalTime ?? 15))mn" // date formatter à checker, pas min
-
+        
         recipeNameLabel.text = recipe?.name
         ingredientsPreviewLabel.text = recipe?.ingredients.joined(separator: ", ")
         // Mettre image dans les assets au lieu de loader à chaque fois, faire if let
         cellBackgroundImage.loadRecipePhoto(recipe?.imageUrl ?? "https://img.cuisineaz.com/680x357/2016-09-08/i60347-ingredients-indispensables-vegetarien.jpg")
-
+        
     }
     private func configureCell() {
         // faire vue à part a reutiliser dans ecran détails, recipePreview nouvelle class à faire comme recipeCell
@@ -63,33 +66,59 @@ class RecipeCell: UITableViewCell {
         totalTimeLabel.translatesAutoresizingMaskIntoConstraints = false
         numberOfGuestsAndTime.addSubview(totalTimeLabel)
         
+        
+        contentView.addSubview(nameAndIngredientsStackView)
+        
         recipeNameLabel.font = UIFont.preferredFont(forTextStyle: .headline) // mettre les autres en body ou caption
         recipeNameLabel.textColor = .label
         recipeNameLabel.adjustsFontForContentSizeCategory = true
         // mettre numberOflines
         recipeNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(recipeNameLabel)
+        nameAndIngredientsStackView.addSubview(recipeNameLabel)
         
+        ingredientsPreviewLabel.numberOfLines = 0
         ingredientsPreviewLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(ingredientsPreviewLabel)
         
-
+        nameAndIngredientsStackView.distribution = UIStackView.Distribution.fillEqually
+        nameAndIngredientsStackView.alignment = UIStackView.Alignment.fill
+        nameAndIngredientsStackView.spacing = 16.0
+        nameAndIngredientsStackView.backgroundColor = .yellow
+        nameAndIngredientsStackView.contentMode = .scaleToFill
+        nameAndIngredientsStackView.translatesAutoresizingMaskIntoConstraints = false
+        nameAndIngredientsStackView.addSubview(ingredientsPreviewLabel)
+        
         
         cellBackgroundImage.translatesAutoresizingMaskIntoConstraints = false
+        cellBackgroundImage.alpha = 0.55
+        cellBackgroundImage.contentMode = .scaleAspectFill
         contentView.addSubview(cellBackgroundImage)
+        contentView.sendSubviewToBack(cellBackgroundImage)
         
         NSLayoutConstraint.activate([
-            recipeNameLabel.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.5),
-            recipeNameLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1.0),
-            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: recipeNameLabel.trailingAnchor, multiplier: 1.0),
-            contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: recipeNameLabel.bottomAnchor, multiplier: 1.5)
+            //            recipeNameLabel.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.5),
+            //            recipeNameLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1.0),
+            //            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: recipeNameLabel.trailingAnchor, multiplier: 1.0),
+            //            recipeNameLabel.bottomAnchor.constraint(equalToSystemSpacingBelow: ingredientsPreviewLabel.topAnchor, multiplier: 1.5),
+            nameAndIngredientsStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 3.5),
+            
+            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: nameAndIngredientsStackView.trailingAnchor, multiplier: 18),
+            
+            nameAndIngredientsStackView.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 2),
+            
+            contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: nameAndIngredientsStackView.bottomAnchor, multiplier: 2),
+            //            contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: recipeNameLabel.bottomAnchor, multiplier: 1.5),
+//            ingredientsPreviewLabel.bottomAnchor.constraint(equalToSystemSpacingBelow: contentView.bottomAnchor, multiplier: 1.5),
+            
+            cellBackgroundImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
+            cellBackgroundImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
+            cellBackgroundImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            cellBackgroundImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
+            
+            // StackView
+            
         ])
         
         //        self.backgroundColor = .orange
-
-        
-        // baisser opacité
-        // mettre la photo en .fill
     }
     
     override func awakeFromNib() {

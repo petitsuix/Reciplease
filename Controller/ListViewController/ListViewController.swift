@@ -136,7 +136,9 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         return recipes.count
     }
     
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 160
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // returning the cell depending on dataMode
