@@ -4,21 +4,22 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Favorite-->
+        <!--List View Controller-->
         <scene sceneID="djv-Gn-BCv">
             <objects>
                 <viewController id="qmM-Ux-HUx" customClass="ListViewController" customModule="Reciplease" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ctd-fS-IfF">
+                    <view key="view" contentMode="scaleToFill" id="ctd-fS-IfF" userLabel="Favorites View">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Clg-Zt-7dV" userLabel="Favorite Table View">
-                                <rect key="frame" x="0.0" y="101" width="414" height="698"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="recipeCell" rowHeight="160" id="E1E-db-CLN" userLabel="favoriteCell" customClass="RecipeCell" customModule="Reciplease" customModuleProvider="target">
@@ -35,13 +36,16 @@
                         <viewLayoutGuide key="safeArea" id="xV7-Ja-Al8"/>
                         <color key="backgroundColor" red="0.21294611690000001" green="0.19710689780000001" blue="0.19287389520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Clg-Zt-7dV" firstAttribute="leading" secondItem="ctd-fS-IfF" secondAttribute="leading" id="JHk-9f-tUC"/>
-                            <constraint firstItem="Clg-Zt-7dV" firstAttribute="top" secondItem="xV7-Ja-Al8" secondAttribute="top" constant="57" id="QIl-7p-cy5"/>
+                            <constraint firstItem="Clg-Zt-7dV" firstAttribute="top" secondItem="xV7-Ja-Al8" secondAttribute="top" id="QIl-7p-cy5"/>
+                            <constraint firstItem="Clg-Zt-7dV" firstAttribute="leading" secondItem="xV7-Ja-Al8" secondAttribute="leading" id="Wgf-NJ-lqx"/>
                             <constraint firstItem="Clg-Zt-7dV" firstAttribute="trailing" secondItem="xV7-Ja-Al8" secondAttribute="trailing" id="kty-Wk-b8T"/>
-                            <constraint firstItem="xV7-Ja-Al8" firstAttribute="bottom" secondItem="Clg-Zt-7dV" secondAttribute="bottom" constant="63" id="mNW-SW-ZOy"/>
+                            <constraint firstItem="xV7-Ja-Al8" firstAttribute="bottom" secondItem="Clg-Zt-7dV" secondAttribute="bottom" id="mNW-SW-ZOy"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Favorite" selectedImage="star" catalog="system" id="HJu-rD-q19"/>
+                    <tabBarItem key="tabBarItem" systemItem="favorites" id="HJu-rD-q19">
+                        <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <imageReference key="selectedImage" image="star" catalog="system" symbolScale="default" renderingMode="original"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="resultsTableView" destination="Clg-Zt-7dV" id="ifz-XV-NXh"/>
                     </connections>

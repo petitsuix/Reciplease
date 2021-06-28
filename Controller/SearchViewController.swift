@@ -14,9 +14,10 @@ class SearchViewController: UIViewController {
     private var ingredientsArray: [String] = []
     private var recipes: [Recipe] = []
     
-    @IBOutlet weak var searchTextField: UITextField! { didSet { searchTextField?.addDoneToolbar() } }
+    @IBOutlet weak var searchBar: UITextField! { didSet { searchBar?.addDoneToolbar() } }
     @IBOutlet weak var addIngredientButton: UIButton!
     @IBOutlet weak var ingredientsListTextView: UITextView!
+    @IBOutlet weak var clearListButton: UIButton!
     @IBOutlet weak var searchActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var searchRecipesButton: UIButton!
     
@@ -25,6 +26,7 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addIngredientButton.roundingButtonCorners(radius: 5)
+        clearListButton.roundingButtonCorners(radius: 5)
         searchRecipesButton.roundingButtonCorners(radius: 15)
         searchActivityIndicator.isHidden = true
         self.navigationController?.isNavigationBarHidden = true
@@ -42,7 +44,7 @@ class SearchViewController: UIViewController {
     }
     
     private func cleanSearchBar() {
-        searchTextField.text = ""
+        searchBar.text = ""
     }
     
     private func pushRecipesList() {
@@ -59,10 +61,10 @@ class SearchViewController: UIViewController {
     
     // MARK: - IBAction methods
     @IBAction func didPressAddButton(_ sender: Any) {
-        if searchTextField.text == "" { alert("Missing ingredient", "Some characters are missing..."); return }
-        guard let ingredient = searchTextField.text else { return } // TODO: détailler
+        if searchBar.text == "" { alert("Missing ingredient", "Some characters are missing..."); return }
+        guard let ingredient = searchBar.text else { return } // TODO: détailler
         addIngredient(ingredient)
-        searchTextField.doneButtonTapped()
+        searchBar.doneButtonTapped()
         cleanSearchBar()
     }
     
@@ -73,7 +75,7 @@ class SearchViewController: UIViewController {
     
     @IBAction func didPressSearchRecipesButton(_ sender: Any) {
         if ingredientsArray.isEmpty {
-            return alert("Something's missing", "You must add at least one ingredient")
+            return alert("Something's missing", "You should add at least one ingredient")
         }
         pushRecipesList()
     }

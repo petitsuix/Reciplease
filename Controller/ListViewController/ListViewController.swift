@@ -40,8 +40,7 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
             resetState()
             switch viewState {
             case .loading :
-                // searchRecipesButton.isHidden = true
-                // searchActivityIndicator.isHidden = false
+                // ajouter/créer activity indicator ici et ajouter un "loading" dans un UIViewCustom ou y'a ces deux objets 
                 print("loading")
             case .empty :
                 // afficher une petite vue ou label ou alerte pour signifier qu'il n'y a rien
@@ -61,16 +60,14 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
     // MARK: - View life cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         title = dataMode.title
-        
         resultsTableView.dataSource = self
         resultsTableView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //        resultsTableView.reloadData()
+        
         if dataMode == .coreData {
             do {
                 recipes = try StorageService.sharedStorageService.loadRecipes()
@@ -79,9 +76,8 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
             }
         } else {
             fetchRecipes()
-        } // mettre dans le viewwillappear
+        }
         resultsTableView.reloadData()
-        
     }
     
     // MARK: - Methods

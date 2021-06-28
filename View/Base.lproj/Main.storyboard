@@ -25,7 +25,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jOU-FT-Xkp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="529" y="-328"/>
+            <point key="canvasLocation" x="529" y="-347"/>
         </scene>
         <!--Search-->
         <scene sceneID="pGc-iu-fGe">
@@ -49,7 +49,7 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dnI-w4-8Zu">
                                         <rect key="frame" x="318" y="98" width="56" height="30"/>
-                                        <color key="backgroundColor" red="1" green="0.77717366660385134" blue="0.31121753579313838" alpha="0.84999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.97276777029999995" green="0.58991429655718297" blue="0.47375452330470375" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="VQu-wI-Nc5"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="56" id="b4C-e5-3U4"/>
@@ -85,7 +85,7 @@
                                 </constraints>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ttH-HC-rUU">
-                                <rect key="frame" x="20" y="290" width="374" height="392"/>
+                                <rect key="frame" x="20" y="290" width="374" height="364"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -93,7 +93,7 @@
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1QH-Cj-eOn">
                                 <rect key="frame" x="56" y="714" width="302" height="72"/>
-                                <color key="backgroundColor" red="1" green="0.77717366659999998" blue="0.3112175358" alpha="0.85142872430000005" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.94235318899999998" green="0.65117192270000002" blue="0.40698021649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="72" id="cOh-R5-iVK"/>
                                 </constraints>
@@ -110,9 +110,11 @@
                                 <color key="color" name="AccentColor"/>
                             </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UNa-yr-zLr">
-                                <rect key="frame" x="150" y="652" width="114" height="30"/>
-                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
-                                <state key="normal" title="Clear list"/>
+                                <rect key="frame" x="150" y="662" width="114" height="30"/>
+                                <color key="backgroundColor" red="0.97276777029999995" green="0.58991429655718297" blue="0.47375452330470375" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Clear list">
+                                    <color key="titleColor" systemColor="systemBackgroundColor"/>
+                                </state>
                                 <connections>
                                     <action selector="didPressClearListButton:" destination="yUW-Zv-edW" eventType="touchUpInside" id="f26-mc-ANO"/>
                                 </connections>
@@ -131,27 +133,28 @@
                             <constraint firstItem="AbW-dj-2it" firstAttribute="centerX" secondItem="1QH-Cj-eOn" secondAttribute="centerX" id="aJM-5i-QRx"/>
                             <constraint firstItem="AbW-dj-2it" firstAttribute="centerY" secondItem="1QH-Cj-eOn" secondAttribute="centerY" id="cAG-9a-uNd"/>
                             <constraint firstItem="aIl-cO-6QS" firstAttribute="bottom" secondItem="1QH-Cj-eOn" secondAttribute="bottom" constant="27" id="dVt-ca-BeK"/>
-                            <constraint firstItem="1QH-Cj-eOn" firstAttribute="top" secondItem="ttH-HC-rUU" secondAttribute="bottom" constant="32" id="ePp-D8-gXX"/>
+                            <constraint firstItem="1QH-Cj-eOn" firstAttribute="top" secondItem="ttH-HC-rUU" secondAttribute="bottom" constant="60" id="ePp-D8-gXX"/>
                             <constraint firstItem="UNa-yr-zLr" firstAttribute="centerX" secondItem="ttH-HC-rUU" secondAttribute="centerX" id="hDm-fs-L7f"/>
                             <constraint firstItem="aIl-cO-6QS" firstAttribute="trailing" secondItem="ttH-HC-rUU" secondAttribute="trailing" constant="20" id="oDv-MO-w0G"/>
                             <constraint firstItem="aIl-cO-6QS" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="1QH-Cj-eOn" secondAttribute="trailing" constant="56" id="rSI-El-ADS"/>
                             <constraint firstItem="ttH-HC-rUU" firstAttribute="top" secondItem="hUb-Ja-l0D" secondAttribute="bottom" constant="16" id="vrw-VN-cee"/>
-                            <constraint firstItem="UNa-yr-zLr" firstAttribute="bottom" secondItem="ttH-HC-rUU" secondAttribute="bottom" id="zvQ-6G-nle"/>
+                            <constraint firstItem="UNa-yr-zLr" firstAttribute="bottom" secondItem="ttH-HC-rUU" secondAttribute="bottom" constant="38" id="zvQ-6G-nle"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" id="9Nk-HW-IGC"/>
                     <navigationItem key="navigationItem" id="Rmd-LU-qFJ"/>
                     <connections>
                         <outlet property="addIngredientButton" destination="dnI-w4-8Zu" id="e31-kL-Yn5"/>
+                        <outlet property="clearListButton" destination="UNa-yr-zLr" id="yfq-Q3-As0"/>
                         <outlet property="ingredientsListTextView" destination="ttH-HC-rUU" id="5SA-4W-ztS"/>
                         <outlet property="searchActivityIndicator" destination="AbW-dj-2it" id="Kfa-wY-cNT"/>
+                        <outlet property="searchBar" destination="rmf-mh-CBZ" id="wI6-sZ-F3N"/>
                         <outlet property="searchRecipesButton" destination="1QH-Cj-eOn" id="w1v-Bs-SDa"/>
-                        <outlet property="searchTextField" destination="rmf-mh-CBZ" id="wI6-sZ-F3N"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f94-Va-1iy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1256.521739130435" y="-328.125"/>
+            <point key="canvasLocation" x="1253.6231884057972" y="-348.21428571428572"/>
         </scene>
         <!--List View Controller-->
         <scene sceneID="TgU-Ug-ybM">
@@ -180,7 +183,7 @@
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="lVM-4r-dLC"/>
-                        <color key="backgroundColor" red="0.96621066330000005" green="0.82991653679999999" blue="0.55211591719999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="ctn-Tw-Jhy" firstAttribute="centerX" secondItem="9hJ-On-kxF" secondAttribute="centerX" id="3bC-e0-T4Z"/>
                             <constraint firstItem="ctn-Tw-Jhy" firstAttribute="leading" secondItem="lVM-4r-dLC" secondAttribute="leading" id="GvC-U9-HeI"/>
@@ -196,7 +199,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="07b-K1-Et5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1950.7246376811595" y="-328.125"/>
+            <point key="canvasLocation" x="1951" y="-348"/>
         </scene>
         <!--DetailsViewController-->
         <scene sceneID="JiY-UU-e6q">
@@ -259,7 +262,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7zb-JK-O3o" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2684.057971014493" y="-327.45535714285711"/>
+            <point key="canvasLocation" x="2661" y="-348"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="uEd-Vc-89m">
@@ -270,12 +273,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" red="0.98122149709999995" green="0.80696994070000005" blue="0.44804221389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="1" green="0.74838367193972166" blue="0.43604089710746918" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
                         <segue destination="PjL-HK-JCF" kind="relationship" relationship="viewControllers" id="SeE-Ue-aZG"/>
-                        <segue destination="QzK-mF-s3K" kind="relationship" relationship="viewControllers" id="lPX-GW-CoW"/>
+                        <segue destination="Byo-1d-flX" kind="relationship" relationship="viewControllers" id="0x8-wu-jc2"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1W7-5G-Pc6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -287,14 +290,34 @@
             <objects>
                 <viewControllerPlaceholder storyboardName="Favorite" id="QzK-mF-s3K" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="RUz-9h-GOw"/>
+                    <navigationItem key="navigationItem" id="sVz-oN-mUV"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P7f-Y0-37y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="530" y="325"/>
+            <point key="canvasLocation" x="1254" y="295"/>
+        </scene>
+        <!--Favorites-->
+        <scene sceneID="e0X-Zy-Z4V">
+            <objects>
+                <navigationController id="Byo-1d-flX" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Favorites" image="star" catalog="system" selectedImage="star.fill" id="ZdL-LG-zuB"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7eR-4T-dNo">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="QzK-mF-s3K" kind="relationship" relationship="rootViewController" id="K5s-JA-BOC"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6yh-IW-eaQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="529" y="295"/>
         </scene>
     </scenes>
     <resources>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="star" catalog="system" width="128" height="116"/>
+        <image name="star.fill" catalog="system" width="128" height="116"/>
         <namedColor name="AccentColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </namedColor>
@@ -303,9 +326,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemOrangeColor">
-            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

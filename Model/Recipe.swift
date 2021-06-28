@@ -22,7 +22,7 @@ struct Recipe: Decodable {
     let imageUrl: String?
     let numberOfGuests: Double
     let ingredients: [String]
-    let totalTime: Double?
+    let preparationTime: Double?
     
     enum CodingKeys: String, CodingKey {
         case name = "label"
@@ -43,7 +43,7 @@ struct Recipe: Decodable {
         ingredients = try recipe.decode([String].self, forKey: .ingredients)
         numberOfGuests = try recipe.decode(Double.self, forKey: .numberOfGuests)
         let decodedTotalTime = try recipe.decode(Double.self, forKey: .totalTime)
-        totalTime = decodedTotalTime == 0.0 ? nil : decodedTotalTime
+        preparationTime = decodedTotalTime == 0.0 ? nil : decodedTotalTime
     }
 }
 
@@ -52,10 +52,10 @@ extension Recipe {
         self.name = recipeEntity.name ?? ""
         self.recipeUrl = recipeEntity.recipeUrl ?? ""
         self.imageUrl = recipeEntity.imageUrl ?? ""
-        self.ingredients = []
+        self.ingredients = recipeEntity.ingredients?.components(separatedBy: ",") ?? []
 //        self.ingredients = recipeEntity.ingredients // faire l'inverse de joined()
         self.numberOfGuests = recipeEntity.numberOfGuests
-        self.totalTime = recipeEntity.totalTime
+        self.preparationTime = recipeEntity.totalTime
     }
 }
 
