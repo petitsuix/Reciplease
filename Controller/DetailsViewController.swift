@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import SafariServices
 
-class DetailsViewController: UIViewController {
+class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
     
     // MARK: - Properties
     
@@ -17,7 +18,7 @@ class DetailsViewController: UIViewController {
     
     @IBOutlet weak var recipePicture: UIImageView!
     @IBOutlet weak var recipeName: UILabel!
-    @IBOutlet weak var ingredients: UITextField!
+    @IBOutlet weak var ingredients: UITextView!
     @IBOutlet weak var getDirectionsButton: UIButton!
     
     
@@ -39,7 +40,12 @@ class DetailsViewController: UIViewController {
     
     private func setUpView() {
         recipeName.text = recipe?.name
-        ingredients.text = recipe?.ingredients.joined(separator: ", ")
+        ingredients.text = "• \(recipe?.ingredients.joined(separator: "\n• ") ?? "not found")"
+        if recipe?.imageUrl != nil {
+            recipePicture.loadRecipePhoto((recipe?.imageUrl)!)
+        } else {
+            recipePicture.image = UIImage(named: "ingredients")
+        }
     }
     
     private func addToFavorite() {
@@ -49,7 +55,8 @@ class DetailsViewController: UIViewController {
             fetchFavoriteState()
             
         } catch {
-            print(error) // créer une vrai uialert "pas de sauvegade possible"
+            alert("Oops...", "It seems like this recipe can't be saved")
+            print(error)
         }
     }
     
@@ -97,6 +104,16 @@ class DetailsViewController: UIViewController {
         }
     }
     
-    @objc func openRecipeWebsite() {} // voir methode safari, prensent()
+    @objc func openRecipeWebsite() {
+        guard let urlString = recipe?.recipeUrl else { return }
+        if let url = URL(string:  urlString) {
+            let safariViewController = SFSafariViewController(url: url)
+            safariViewController.delegate = self
+            present(safariViewController, animated: true)
+        }
+    } // voir methode safari, prensent()
     
+    @IBAction func didTapGetDirectionsButton(_ sender: Any) {
+        openRecipeWebsite()
+    }
 }

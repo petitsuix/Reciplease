@@ -13,3 +13,10 @@ extension UIButton {
         self.layer.cornerRadius = CGFloat(radius)
     }
 }
+
+extension UIView {
+    func roundingViewCorners(radius: Int) {
+    self.layer.masksToBounds = true
+        self.layer.cornerRadius = CGFloat(radius)
+    }
+}

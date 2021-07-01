@@ -9,7 +9,7 @@ import UIKit
 
 class RecipeCell: UITableViewCell {
     
-    var cellDetailsView = CellDetailsView()
+    var cellExtraInfoView = CellExtraInfoView()
     
     var cellBackgroundImage = UIImageView()
     
@@ -26,35 +26,27 @@ class RecipeCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         configureCell()
-        cellDetailsView.configureView()
+        cellExtraInfoView.configureView()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         configureCell()
-        cellDetailsView.configureView()
+        cellExtraInfoView.configureView()
     }
     
     private func refreshData() {
-        // TODO :
-        cellDetailsView.recipe = recipe
-        
+        cellExtraInfoView.recipe = recipe
         recipeNameLabel.text = recipe?.name
         ingredientsPreviewLabel.text = recipe?.ingredients.joined(separator: ", ")
-        // Mettre image dans les assets au lieu de loader à chaque fois, faire if let
-        cellBackgroundImage.loadRecipePhoto(recipe?.imageUrl ?? "https://img.cuisineaz.com/680x357/2016-09-08/i60347-ingredients-indispensables-vegetarien.jpg")
+        if recipe?.imageUrl != nil {
+            cellBackgroundImage.loadRecipePhoto((recipe?.imageUrl)!)
+        } else {
+            cellBackgroundImage.image = UIImage(named: "ingredients")
+        }
     }
     
     private func configureCell() {
-        // TODO :
-        
-        // infoStackView.layer.backgroundColor ou infoStackView.backgroundColor
-        // espacement entre recipeNameLabel et ingredientsPreview
-        // taille des icones
-        
-        // faire vue à part a reutiliser dans ecran détails, recipePreview nouvelle class à faire comme recipeCell
-        
-        // InfoStackView is a horizontal stack view that will contain 2 vertical stack views : one called "iconsStackView" for the number of guests & preparation time icons, and another called "guestsAndPreparationTimeValues for the actual values.
         
         cellBackgroundImage.translatesAutoresizingMaskIntoConstraints = false
         cellBackgroundImage.alpha = 0.55
@@ -83,12 +75,11 @@ class RecipeCell: UITableViewCell {
         
         nameAndIngredientsStackView.addArrangedSubview(recipeNameLabel)
         nameAndIngredientsStackView.addArrangedSubview(ingredientsPreviewLabel)
-        
-        
-        cellDetailsView.translatesAutoresizingMaskIntoConstraints = false
-        
         contentView.addSubview(nameAndIngredientsStackView)
-        contentView.addSubview(cellDetailsView)
+        
+        cellExtraInfoView.roundingViewCorners(radius: 3)
+        cellExtraInfoView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(cellExtraInfoView)
         
         // TESTS COULEURS :
         recipeNameLabel.backgroundColor = .orange
@@ -110,20 +101,12 @@ class RecipeCell: UITableViewCell {
                 // ↳ Ingredients Preview constraints
             ingredientsPreviewLabel.heightAnchor.constraint(equalToConstant: 90),
             
-            
-            // ⬇︎ Cell details view
-//            cellDetailsView.widthAnchor.constraint(equalToConstant: 60),
-//            cellDetailsView.heightAnchor.constraint(equalToConstant: 50),
-            cellDetailsView.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1),
-            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: cellDetailsView.trailingAnchor, multiplier: 1),
+            // ⬇︎ Cell's extra info view
+            cellExtraInfoView.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1),
+            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: cellExtraInfoView.trailingAnchor, multiplier: 1),
+            cellExtraInfoView.leadingAnchor.constraint(lessThanOrEqualToSystemSpacingAfter: nameAndIngredientsStackView.trailingAnchor, multiplier: 10)
                 // ↳ Info icons constraints
-//            numberOfGuestsIcon.heightAnchor.constraint(equalToConstant: 8),
-//            numberOfGuestsIcon.widthAnchor.constraint(equalToConstant: 8),
-//            preparationTimeIcon.heightAnchor.constraint(equalToConstant: 8),
-//            preparationTimeIcon.widthAnchor.constraint(equalToConstant: 8)
         ])
-        
-        //        self.backgroundColor = .orange
     }
     
     override func awakeFromNib() {

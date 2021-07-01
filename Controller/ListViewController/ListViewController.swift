@@ -32,7 +32,14 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
     
     // MARK: - Properties
     var ingredients: String = ""
-    var recipes: [Recipe] = [] // peut-être poser ici un didSet qui check si recipes est empty
+    var recipes: [Recipe] = []
+    // {
+//        didSet {
+//            if recipes.isEmpty {
+//                viewState = .empty
+//            }
+//        }
+//    }// peut-être poser ici un didSet qui check si recipes est empty
     var dataMode: DataMode = .coreData
     
     var viewState: State<[Recipe]> = .loading {
@@ -44,6 +51,7 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
                 print("loading")
             case .empty :
                 // afficher une petite vue ou label ou alerte pour signifier qu'il n'y a rien
+                resultsTableView.isHidden = true
                 print("empty")
             case .error :
                 print("error")// présenter une alerte

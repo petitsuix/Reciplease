@@ -43,12 +43,13 @@ class StorageService {
         recipeEntity.ingredients = recipe.ingredients.joined(separator: ", ")
         recipeEntity.totalTime = recipe.preparationTime ?? 15 
         recipeEntity.numberOfGuests = recipe.numberOfGuests
+        recipeEntity.recipeUrl = recipe.recipeUrl
         if viewContext.hasChanges {
             do {
                 try viewContext.save()
             } catch {
                 // Show some error here
-//                print(error)
+                print(error)
                 throw error
             }
         }
@@ -59,7 +60,6 @@ class StorageService {
         let fetchRequest: NSFetchRequest<RecipesEntity> = RecipesEntity.fetchRequest()
         let predicate = NSPredicate(format: "name == %@", recipe.name)
         fetchRequest.predicate = predicate
-        
         let recipeEntities: [RecipesEntity]
 
         do {
@@ -72,6 +72,5 @@ class StorageService {
         } catch {
             throw error
         }
-        
     }
 }
