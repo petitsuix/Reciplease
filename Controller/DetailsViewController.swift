@@ -35,7 +35,6 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
         setUpFavoriteButton()
     }
     
-    
     // MARK: - Methods
     
     private func setUpView() {

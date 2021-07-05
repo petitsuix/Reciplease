@@ -31,15 +31,16 @@ enum State<Data> {
 class ListViewController: UIViewController, UINavigationBarDelegate {
     
     // MARK: - Properties
+    let activityIndicator = UIActivityIndicatorView(style: .large)
     var ingredients: String = ""
     var recipes: [Recipe] = []
     // {
-//        didSet {
-//            if recipes.isEmpty {
-//                viewState = .empty
-//            }
-//        }
-//    }// peut-être poser ici un didSet qui check si recipes est empty
+    //        didSet {
+    //            if recipes.isEmpty {
+    //                viewState = .empty
+    //            }
+    //        }
+    //    }// peut-être poser ici un didSet qui check si recipes est empty
     var dataMode: DataMode = .coreData
     
     var viewState: State<[Recipe]> = .loading {
@@ -47,17 +48,24 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
             resetState()
             switch viewState {
             case .loading :
-                // ajouter/créer activity indicator ici et ajouter un "loading" dans un UIViewCustom ou y'a ces deux objets 
+                // ajouter/créer activity indicator ici et ajouter un "loading" dans un UIViewCustom ou y'a ces deux objets
+                activityIndicator.startAnimating()
                 print("loading")
             case .empty :
                 // afficher une petite vue ou label ou alerte pour signifier qu'il n'y a rien
+                activityIndicator.stopAnimating()
                 resultsTableView.isHidden = true
+                displayNoResultView()
                 print("empty")
             case .error :
+                activityIndicator
+                    .stopAnimating()
                 print("error")// présenter une alerte
             case .showData(let recipes) :
+                activityIndicator.stopAnimating()
                 self.recipes = recipes
                 resultsTableView.reloadData()
+                resultsTableView.isHidden = false
             }
         }
     }
@@ -78,7 +86,14 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         
         if dataMode == .coreData {
             do {
+                viewState = .loading
                 recipes = try StorageService.sharedStorageService.loadRecipes()
+                self.activityIndicator.stopAnimating()
+                if recipes.isEmpty {
+                    viewState = .empty
+                } else {
+                    viewState = .showData(recipes)
+                }
             } catch {
                 print(error)
             }
@@ -97,16 +112,29 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         viewState = .loading
         RecipeService.shared.fetchData(for: ingredients) { result in
             switch result {
-            case .success(let infoEdamamRequest) where infoEdamamRequest.recipes.isEmpty :
-                self.viewState = .empty
+//            case .success(let infoEdamamRequest) where infoEdamamRequest.recipes.isEmpty :
+//                self.viewState = .empty
             case .success(let infoEdamamRequest):
-                print(infoEdamamRequest)
-                self.viewState = .showData(infoEdamamRequest.recipes)
-                self.recipes = infoEdamamRequest.recipes
+                if infoEdamamRequest.recipes.isEmpty {
+                    self.viewState = .empty
+                } else {
+                    self.recipes = infoEdamamRequest.recipes
+                    self.viewState = .showData(infoEdamamRequest.recipes)
+                    print(infoEdamamRequest)
+                }
             case .failure(let error):
                 print(error)
             }
         }
+    }
+    
+    func displayNoResultView() {
+        let noResultTextView = UITextView.init(frame: self.view.frame)
+        noResultTextView.text = "\n\n\nNothing to show here"
+        noResultTextView.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        noResultTextView.textColor = .systemGray
+        noResultTextView.textAlignment = .center
+        view.insertSubview(noResultTextView, at: 0)
     }
     
     private func displayRecipeDetailFor(_ recipe: Recipe) {
@@ -166,6 +194,9 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
             // Then delete the row from the data source
             recipes.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        if recipes.isEmpty {
+            viewState = .empty
         }
     }
 }
