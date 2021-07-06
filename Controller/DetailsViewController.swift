@@ -38,6 +38,7 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
     
     private func setUpView() {
         recipeName.text = recipe?.name
+        recipeName.numberOfLines = 0
         if let ingredients = recipe?.ingredients {
             self.ingredients.text = "• \(ingredients.joined(separator: "\n• "))"
         } else {

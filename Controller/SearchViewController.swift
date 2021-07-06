@@ -21,7 +21,6 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var searchActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var searchRecipesButton: UIButton!
     
-    
     // MARK: - View life cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,8 +60,12 @@ class SearchViewController: UIViewController {
     
     // MARK: - IBAction methods
     @IBAction func didPressAddButton(_ sender: Any) {
-        if searchBar.text == "" { alert("Missing ingredient", "Some characters are missing..."); return }
-        guard let ingredient = searchBar.text else { return } // TODO: détailler
+        //        if searchBar.text == "" { alert("Missing ingredient", "Some characters are missing..."); return }
+        guard let ingredient = searchBar.text, ingredient != "" else {
+            print("Error searchBar: characters are missing, or searchBar.text is nil")
+            alert("Missing ingredient", "Some characters are missing...")
+            return
+        }
         addIngredient(ingredient)
         searchBar.doneButtonTapped()
         cleanSearchBar()

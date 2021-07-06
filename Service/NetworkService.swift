@@ -9,8 +9,11 @@ import Alamofire
 
 class RecipeService {
     
-    static let shared = RecipeService()
-    private init() {}
+    private let session: Session
+    
+    init(session: Session = .default) {
+        self.session = session
+    }
     
     let baseUrl = "https://api.edamam.com/search?"
     
@@ -19,7 +22,7 @@ class RecipeService {
         let encodedUrl = url.replacingOccurrences(of: " ", with: "+")
         print(encodedUrl)
         // sortir la session et default
-        Session.default.request(encodedUrl).validate().responseDecodable(of: InfoEdamamRequest.self) { (response) in
+        session.request(encodedUrl).validate().responseDecodable(of: InfoEdamamRequest.self) { (response) in
             completion(response.result)
         }
     }

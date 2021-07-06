@@ -54,22 +54,24 @@ class RecipeCell: UITableViewCell {
         contentView.addSubview(cellBackgroundImage)
         contentView.sendSubviewToBack(cellBackgroundImage)
         
-        recipeNameLabel.font = UIFont.preferredFont(forTextStyle: .headline) // mettre les autres en body ou caption
-        recipeNameLabel.textColor = .label
+         // mettre les autres en body ou caption
         recipeNameLabel.adjustsFontForContentSizeCategory = true
+        recipeNameLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+        recipeNameLabel.textColor = .label
         // mettre numberOflines
+        recipeNameLabel.numberOfLines = 0
         recipeNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        // TODO : trouver un moyen d'appliquer adjustFontForContentSizeCategory partout
+        // TODO: trouver un moyen d'appliquer adjustFontForContentSizeCategory partout
         ingredientsPreviewLabel.adjustsFontForContentSizeCategory = true
         ingredientsPreviewLabel.font = .preferredFont(forTextStyle: .caption1) // à changer
-        ingredientsPreviewLabel.numberOfLines = 0
+        ingredientsPreviewLabel.numberOfLines = 2
         ingredientsPreviewLabel.translatesAutoresizingMaskIntoConstraints = false
         
         nameAndIngredientsStackView.distribution = UIStackView.Distribution.fillProportionally
         nameAndIngredientsStackView.alignment = UIStackView.Alignment.leading
         nameAndIngredientsStackView.spacing = 0
-        nameAndIngredientsStackView.contentMode = .scaleToFill
+        nameAndIngredientsStackView.contentMode = .scaleAspectFit
         nameAndIngredientsStackView.translatesAutoresizingMaskIntoConstraints = false
         nameAndIngredientsStackView.axis = .vertical
         
@@ -99,7 +101,7 @@ class RecipeCell: UITableViewCell {
             contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: nameAndIngredientsStackView.trailingAnchor, multiplier: 18),
             contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: nameAndIngredientsStackView.bottomAnchor, multiplier: 2),
                 // ↳ Ingredients Preview constraints
-            ingredientsPreviewLabel.heightAnchor.constraint(equalToConstant: 90),
+            
             
             // ⬇︎ Cell's extra info view
             cellExtraInfoView.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1),

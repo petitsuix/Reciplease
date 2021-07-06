@@ -24,29 +24,28 @@ class CellExtraInfoView: UIView {
     private func refreshData() {
         // date formatter à checker, pas min
         if let numberOfGuests = recipe?.numberOfGuests {
-            self.numberOfGuests.attributedText = textWithAttachedIcon(imageName: "person.2.fill", text: "\(Int(numberOfGuests))")
+            self.numberOfGuests.attributedText = textWithAttachedIcon(imageName: "person.2.fill", text: " \(Int(numberOfGuests))")
         } else {
-            self.numberOfGuests.attributedText = textWithAttachedIcon(imageName: "person.2.fill", text: " -")
+            self.numberOfGuests.attributedText = textWithAttachedIcon(imageName: "person.2.fill", text: "  -")
         }
         
         if let preparationTime = recipe?.preparationTime {
-            self.preparationTime.attributedText = textWithAttachedIcon(imageName: "alarm.fill", text: "\(Int(preparationTime))")
+            self.preparationTime.attributedText = textWithAttachedIcon(imageName: "alarm.fill", text: " \(Int(preparationTime))")
         } else {
-            self.preparationTime.attributedText = textWithAttachedIcon(imageName: "alarm.fill", text: " -")
+            self.preparationTime.attributedText = textWithAttachedIcon(imageName: "alarm.fill", text: "  -")
         }
     }
     
     private func textWithAttachedIcon(imageName: String, text: String) -> NSMutableAttributedString {
-        // Create Attachment
-        let imageAttachment = NSTextAttachment()
-        imageAttachment.image = UIImage(systemName: imageName)?.withTintColor(.label, renderingMode: .alwaysOriginal)
-        // FIXME: COMMENT NE PAS FORCEUNWRAP
-        // Set bound to reposition
-        if let image = imageAttachment.image {
-        imageAttachment.bounds = CGRect(x: 0, y: -3, width: image.size.width, height: image.size.height)
+        // Create attachment
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(systemName: imageName)?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        // Setting bounds
+        if let imageAttachment = attachment.image {
+            attachment.bounds = CGRect(x: 0, y: -3, width: imageAttachment.size.width, height: imageAttachment.size.height)
         }
         // Create string with attachment
-        let attachmentString = NSAttributedString(attachment: imageAttachment)
+        let attachmentString = NSAttributedString(attachment: attachment)
         // Initialize mutable string
         let completeText = NSMutableAttributedString(string: "")
         // Add image to mutable string
