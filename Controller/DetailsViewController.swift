@@ -21,7 +21,6 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
     @IBOutlet weak var ingredients: UITextView!
     @IBOutlet weak var getDirectionsButton: UIButton!
     
-    
     // MARK: - View life cycle methods
     
     override func viewDidLoad() {
@@ -39,9 +38,14 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
     
     private func setUpView() {
         recipeName.text = recipe?.name
-        ingredients.text = "• \(recipe?.ingredients.joined(separator: "\n• ") ?? "not found")"
-        if recipe?.imageUrl != nil {
-            recipePicture.loadRecipePhoto((recipe?.imageUrl)!)
+        if let ingredients = recipe?.ingredients {
+            self.ingredients.text = "• \(ingredients.joined(separator: "\n• "))"
+        } else {
+            self.ingredients.text = "Oops ! Something went wrong while trying to display ingredients list.\n"
+            alert("Houston ?", "It seems the ingredients list could not be shown. Try reloading the page or launch the app again !")
+        }
+        if let imageUrl = recipe?.imageUrl {
+            recipePicture.loadRecipePhoto(imageUrl)
         } else {
             recipePicture.image = UIImage(named: "ingredients")
         }
@@ -52,7 +56,6 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
         do {
             try StorageService.sharedStorageService.saveRecipe(recipe)
             fetchFavoriteState()
-            
         } catch {
             alert("Oops...", "It seems like this recipe can't be saved")
             print(error)
@@ -63,10 +66,7 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
         guard let recipe = recipe else { return }
         do {
             try StorageService.sharedStorageService.deleteRecipe(recipe)
-            
-            //            fetchFavoriteState()
             isRecipeFavorite = false
-            
         } catch {
             print(error)
         }

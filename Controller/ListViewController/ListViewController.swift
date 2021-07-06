@@ -31,24 +31,19 @@ enum State<Data> {
 class ListViewController: UIViewController, UINavigationBarDelegate {
     
     // MARK: - Properties
-    let activityIndicator = UIActivityIndicatorView(style: .large)
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
     var ingredients: String = ""
     var recipes: [Recipe] = []
-    // {
-    //        didSet {
-    //            if recipes.isEmpty {
-    //                viewState = .empty
-    //            }
-    //        }
-    //    }// peut-être poser ici un didSet qui check si recipes est empty
+    // peut-être poser ici un didSet qui check si recipes est empty
     var dataMode: DataMode = .coreData
     
-    var viewState: State<[Recipe]> = .loading {
+    private var viewState: State<[Recipe]> = .loading {
         didSet {
             resetState()
             switch viewState {
             case .loading :
                 // ajouter/créer activity indicator ici et ajouter un "loading" dans un UIViewCustom ou y'a ces deux objets
+                resultsTableView.isHidden = true
                 activityIndicator.startAnimating()
                 print("loading")
             case .empty :
@@ -72,13 +67,16 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
     
     @IBOutlet weak var resultsTableView: UITableView!
     
-    
     // MARK: - View life cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         title = dataMode.title
         resultsTableView.dataSource = self
         resultsTableView.delegate = self
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(activityIndicator)
+        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -108,12 +106,12 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
     private func resetState() {
     }
     
-    func fetchRecipes() {
+    private func fetchRecipes() {
         viewState = .loading
         RecipeService.shared.fetchData(for: ingredients) { result in
             switch result {
-//            case .success(let infoEdamamRequest) where infoEdamamRequest.recipes.isEmpty :
-//                self.viewState = .empty
+            //            case .success(let infoEdamamRequest) where infoEdamamRequest.recipes.isEmpty :
+            //                self.viewState = .empty
             case .success(let infoEdamamRequest):
                 if infoEdamamRequest.recipes.isEmpty {
                     self.viewState = .empty
@@ -128,7 +126,7 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         }
     }
     
-    func displayNoResultView() {
+    private func displayNoResultView() {
         let noResultTextView = UITextView.init(frame: self.view.frame)
         noResultTextView.text = "\n\n\nNothing to show here"
         noResultTextView.font = UIFont.preferredFont(forTextStyle: .subheadline)
@@ -145,12 +143,10 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         navigationController?.pushViewController(detailsViewController, animated: true)
     }
     
-    
     @objc func dismissListViewController(){
         dismiss(animated: true, completion: nil)
     }
 }
-
 
 // MARK: - TableView
 extension ListViewController: UITableViewDataSource, UITableViewDelegate {

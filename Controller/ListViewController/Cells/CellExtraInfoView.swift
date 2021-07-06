@@ -16,29 +16,35 @@ class CellExtraInfoView: UIView {
     }
     
     // ⬇︎ Extra info about prep time and number of guests
-    var infoStackView = UIStackView()
-    // icons
-    // values
+    private var infoStackView = UIStackView()
     
+    private var preparationTime = UILabel()
+    private var numberOfGuests = UILabel()
     
-    var preparationTime = UILabel()
-    var numberOfGuests = UILabel()
-    
-    
-    func refreshData() {
-        // faire if let si on connait pas ces valeurs, ne pas afficher ou unknown
-         // date formatter à checker, pas min
-        numberOfGuests.attributedText = textWithAttachedIcon(imageName: "person.2.fill", text: " \(Int(recipe?.numberOfGuests ?? 4))")
-        preparationTime.attributedText = textWithAttachedIcon(imageName: "alarm.fill", text: " \(Int(recipe?.preparationTime ?? 15))'")
+    private func refreshData() {
+        // date formatter à checker, pas min
+        if let numberOfGuests = recipe?.numberOfGuests {
+            self.numberOfGuests.attributedText = textWithAttachedIcon(imageName: "person.2.fill", text: "\(Int(numberOfGuests))")
+        } else {
+            self.numberOfGuests.attributedText = textWithAttachedIcon(imageName: "person.2.fill", text: " -")
+        }
+        
+        if let preparationTime = recipe?.preparationTime {
+            self.preparationTime.attributedText = textWithAttachedIcon(imageName: "alarm.fill", text: "\(Int(preparationTime))")
+        } else {
+            self.preparationTime.attributedText = textWithAttachedIcon(imageName: "alarm.fill", text: " -")
+        }
     }
     
-    func textWithAttachedIcon(imageName: String, text: String) -> NSMutableAttributedString {
+    private func textWithAttachedIcon(imageName: String, text: String) -> NSMutableAttributedString {
         // Create Attachment
         let imageAttachment = NSTextAttachment()
         imageAttachment.image = UIImage(systemName: imageName)?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        // FIXME: COMMENT NE PAS FORCEUNWRAP
         // Set bound to reposition
-        let imageOffsetY: CGFloat = -5.0
-        imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: imageAttachment.image!.size.width, height: imageAttachment.image!.size.height)
+        if let image = imageAttachment.image {
+        imageAttachment.bounds = CGRect(x: 0, y: -3, width: image.size.width, height: image.size.height)
+        }
         // Create string with attachment
         let attachmentString = NSAttributedString(attachment: imageAttachment)
         // Initialize mutable string
@@ -52,13 +58,9 @@ class CellExtraInfoView: UIView {
     }
     
     func configureView() {
-
-        preparationTime.textAlignment = .natural
-        numberOfGuests.textAlignment = .natural
-        // essayer content mode et autres
+        numberOfGuests.textAlignment = .justified
+        preparationTime.textAlignment = .justified
         
-        
-//      layer.masksToBounds = true
         layer.borderWidth = 2
         layer.borderColor = UIColor.systemGray.cgColor
         backgroundColor = UIColor.systemGray3
@@ -70,9 +72,8 @@ class CellExtraInfoView: UIView {
         infoStackView.axis = .vertical
         infoStackView.addArrangedSubview(numberOfGuests)
         infoStackView.addArrangedSubview(preparationTime)
-    
-        addSubview(infoStackView)
         
+        addSubview(infoStackView)
         
         NSLayoutConstraint.activate([
             infoStackView.topAnchor.constraint(equalTo: topAnchor, constant: 4),
@@ -80,16 +81,7 @@ class CellExtraInfoView: UIView {
             infoStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4),
             infoStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4)
         ])
-        
         // TESTS COULEURS:
         infoStackView.backgroundColor = .red
-        
     }
-    
-    
-  
-    
-    
-    
-    
 }

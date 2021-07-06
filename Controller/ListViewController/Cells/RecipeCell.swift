@@ -9,13 +9,13 @@ import UIKit
 
 class RecipeCell: UITableViewCell {
     
-    var cellExtraInfoView = CellExtraInfoView()
+    private var cellExtraInfoView = CellExtraInfoView()
     
-    var cellBackgroundImage = UIImageView()
+    private var cellBackgroundImage = UIImageView()
     
-    var recipeNameLabel = UILabel()
-    var ingredientsPreviewLabel = UILabel()
-    var nameAndIngredientsStackView = UIStackView()
+    private var recipeNameLabel = UILabel()
+    private var ingredientsPreviewLabel = UILabel()
+    private var nameAndIngredientsStackView = UIStackView()
     
     var recipe: Recipe? {
         didSet {
@@ -62,7 +62,7 @@ class RecipeCell: UITableViewCell {
         
         // TODO : trouver un moyen d'appliquer adjustFontForContentSizeCategory partout
         ingredientsPreviewLabel.adjustsFontForContentSizeCategory = true
-        ingredientsPreviewLabel.font = .italicSystemFont(ofSize: 15)
+        ingredientsPreviewLabel.font = .preferredFont(forTextStyle: .caption1) // à changer
         ingredientsPreviewLabel.numberOfLines = 0
         ingredientsPreviewLabel.translatesAutoresizingMaskIntoConstraints = false
         
