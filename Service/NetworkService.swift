@@ -7,7 +7,7 @@
 
 import Alamofire
 
-class RecipeService {
+class NetworkService {
     
     private let session: Session
     
@@ -21,7 +21,6 @@ class RecipeService {
         let url = "\(baseUrl)app_id=\(AppId.appId)&app_key=\(ApiKey.edamamKey)&q=\(ingredients)&to=100"
         let encodedUrl = url.replacingOccurrences(of: " ", with: "+")
         print(encodedUrl)
-        // sortir la session et default
         session.request(encodedUrl).validate().responseDecodable(of: InfoEdamamRequest.self) { (response) in
             completion(response.result)
         }

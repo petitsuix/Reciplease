@@ -36,7 +36,7 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
     var recipes: [Recipe] = []
     // peut-être poser ici un didSet qui check si recipes est empty
     var dataMode: DataMode = .coreData
-    var recipeService = RecipeService()
+    var networkService = NetworkService()
     
     private var viewState: State<[Recipe]> = .loading {
         didSet {
@@ -109,10 +109,8 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
     
     private func fetchRecipes() {
         viewState = .loading
-        recipeService.fetchData(for: ingredients) { result in
+        networkService.fetchData(for: ingredients) { result in
             switch result {
-            //            case .success(let infoEdamamRequest) where infoEdamamRequest.recipes.isEmpty :
-            //                self.viewState = .empty
             case .success(let infoEdamamRequest):
                 if infoEdamamRequest.recipes.isEmpty {
                     self.viewState = .empty
