@@ -86,7 +86,7 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         if dataMode == .coreData {
             do {
                 viewState = .loading
-                recipes = try StorageService.sharedStorageService.loadRecipes()
+                recipes = try StorageService.shared.loadRecipes()
                 self.activityIndicator.stopAnimating()
                 if recipes.isEmpty {
                     viewState = .empty
@@ -182,7 +182,7 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         if editingStyle == .delete {
             // Delete the recipe in the core data "memory"
             do {
-                try StorageService.sharedStorageService.deleteRecipe(recipes[indexPath.row])
+                try StorageService.shared.deleteRecipe(recipes[indexPath.row])
             } catch  {
                 print("error")
             }

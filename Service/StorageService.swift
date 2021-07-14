@@ -8,12 +8,11 @@
 import CoreData
 class StorageService {
     
-    static let sharedStorageService = StorageService()
+    
+    static let shared = StorageService()
+    var viewContext: NSManagedObjectContext
 
-    let viewContext: NSManagedObjectContext
-
-    private init(persistentContainer: NSPersistentContainer = AppDelegate.persistentContainer) {
-        // passer un persistentContainer par défaut
+    init(persistentContainer: NSPersistentContainer = AppDelegate.persistentContainer) {
         self.viewContext = persistentContainer.viewContext
     }
     
@@ -41,7 +40,7 @@ class StorageService {
         recipeEntity.name = recipe.name
         recipeEntity.imageUrl = recipe.imageUrl
         recipeEntity.ingredients = recipe.ingredients.joined(separator: ", ")
-        recipeEntity.totalTime = recipe.preparationTime ?? 15 
+        recipeEntity.totalTime = recipe.preparationTime ?? 0
         recipeEntity.numberOfGuests = recipe.numberOfGuests
         recipeEntity.recipeUrl = recipe.recipeUrl
         if viewContext.hasChanges {

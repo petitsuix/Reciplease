@@ -25,10 +25,4 @@ class NetworkService {
             completion(response.result)
         }
     }
-    
-    private (set) var recipes: [Recipe] = []
-    
-    func addRecipe(recipe: Recipe) {
-        recipes.append(recipe)
-    }
 }
