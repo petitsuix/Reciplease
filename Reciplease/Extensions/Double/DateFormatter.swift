@@ -9,6 +9,7 @@ import Foundation
 
 extension Double {
     
+    // ⬇︎ Formats raw time into readable time units
     func timeFormatter() -> String {
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .abbreviated // "h", "m", "s"

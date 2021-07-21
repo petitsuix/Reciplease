@@ -7,6 +7,7 @@
 
 import UIKit
 
+// ⬇︎ Rounds the corresponding item's corners, based on a given radius
 extension UIButton {
     func roundingButtonCorners(radius: Int) {
     self.layer.masksToBounds = true

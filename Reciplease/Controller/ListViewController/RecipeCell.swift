@@ -9,7 +9,7 @@ import UIKit
 
 class RecipeCell: UITableViewCell {
     
-    private var cellExtraInfoView = CellExtraInfoView()
+    private var cellExtraInfoView = ExtraInfoView()
     
     private var cellBackgroundImage = UIImageView()
     

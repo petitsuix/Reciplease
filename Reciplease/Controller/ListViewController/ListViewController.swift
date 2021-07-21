@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Alamofire
 
 enum DataMode {
     case api
@@ -38,58 +37,70 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
     var dataMode: DataMode = .coreData
     var networkService = NetworkService()
     
+    private func resetState() {
+        tableView.isHidden = true
+        activityIndicator.stopAnimating()
+    }
+    
     private var viewState: State<[Recipe]> = .loading {
         didSet {
             resetState()
             switch viewState {
             case .loading :
-                // ajouter/créer activity indicator ici et ajouter un "loading" dans un UIViewCustom ou y'a ces deux objets
-                resultsTableView.isHidden = true
                 activityIndicator.startAnimating()
                 print("loading")
             case .empty :
-                // afficher une petite vue ou label ou alerte pour signifier qu'il n'y a rien
-                activityIndicator.stopAnimating()
-                resultsTableView.isHidden = true
                 displayNoResultView()
                 print("empty")
             case .error :
-                activityIndicator
-                    .stopAnimating()
-                print("error")// présenter une alerte
+                alert("Oops...", "Something went wrong,please try again")
+                print("error")
             case .showData(let recipes) :
-                activityIndicator.stopAnimating()
                 self.recipes = recipes
-                resultsTableView.reloadData()
-                resultsTableView.isHidden = false
+                tableView.reloadData()
+                tableView.isHidden = false
             }
         }
     }
     
-    @IBOutlet weak var resultsTableView: UITableView!
+    @IBOutlet weak var tableView: UITableView!
     
     // MARK: - View life cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = dataMode.title
-        resultsTableView.dataSource = self
-        resultsTableView.delegate = self
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(activityIndicator)
-        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        configureView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        getDataFromCorrespondingDataMode()
+    }
+    
+    // MARK: - Methods
+    
+    private func configureView() {
+        tableView.dataSource = self
+        tableView.delegate = self
         
-        if dataMode == .coreData {
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(activityIndicator)
+        
+        title = dataMode.title
+        
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+
+    private func getDataFromCorrespondingDataMode() {
+        if dataMode == .coreData { // If we're desplaying Favorites' list view controller
             do {
-                viewState = .loading
+                viewState = .loading // triggers activity indicator
                 recipes = try StorageService.shared.loadRecipes()
                 self.activityIndicator.stopAnimating()
                 if recipes.isEmpty {
-                    viewState = .empty
+                    viewState = .empty // displays "no results found" view
                 } else {
                     viewState = .showData(recipes)
                 }
@@ -97,41 +108,39 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
                 print(error)
             }
         } else {
-            fetchRecipes()
+            fetchRecipes() // If we're displaying Search Results' list view controller
         }
-        resultsTableView.reloadData()
-    }
-    
-    // MARK: - Methods
-    
-    private func resetState() {
     }
     
     private func fetchRecipes() {
-        viewState = .loading
-        networkService.fetchData(for: ingredients) { result in
-            switch result {
-            case .success(let infoEdamamRequest):
-                if infoEdamamRequest.recipes.isEmpty {
-                    self.viewState = .empty
-                } else {
-                    self.recipes = infoEdamamRequest.recipes
-                    self.viewState = .showData(infoEdamamRequest.recipes)
-                    print(infoEdamamRequest)
+        viewState = .loading // triggers activity indicator
+        networkService.fetchData(for: ingredients) { [weak self] result in // calling data request. Completion waiting for a result of type Result<success, failure>
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let infoEdamamRequest):
+                    if infoEdamamRequest.recipes.isEmpty {
+                        self.viewState = .empty // displays "no results found" view
+                    } else {
+                        self.recipes = infoEdamamRequest.recipes
+                        self.viewState = .showData(infoEdamamRequest.recipes)
+                    }
+                case .failure(let error):
+                    self.alert("Houston ?", "Something went wrong while trying to load recipes. Perhaps you should give it another try ?")
+                    print(error)
                 }
-            case .failure(let error):
-                print(error)
             }
         }
     }
     
     private func displayNoResultView() {
-        let noResultTextView = UITextView.init(frame: view.frame)
+        let noResultTextView = UITextView.init(frame: self.view.frame)
         noResultTextView.text = "\n\n\n\n\nOops, nothing to show here !"
         noResultTextView.font = UIFont.preferredFont(forTextStyle: .subheadline)
         noResultTextView.textColor = .systemGray
         noResultTextView.textAlignment = .center
-        view.insertSubview(noResultTextView, at: 0)
+        noResultTextView.isEditable = false
+        view.addSubview(noResultTextView)
     }
     
     private func displayRecipeDetailFor(_ recipe: Recipe) {

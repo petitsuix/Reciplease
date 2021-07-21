@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Alamofire
 
 class SearchViewController: UIViewController {
     
@@ -28,7 +27,6 @@ class SearchViewController: UIViewController {
         clearListButton.roundingButtonCorners(radius: 5)
         searchRecipesButton.roundingButtonCorners(radius: 15)
         searchActivityIndicator.isHidden = true
-        self.navigationController?.isNavigationBarHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,7 +40,7 @@ class SearchViewController: UIViewController {
     }
     
     private func addIngredient(_ ingredient: String) {
-        ingredientsListTextView.text.append("• \(ingredient)\n")
+        ingredientsListTextView.text.append("• \(ingredient.capitalizingFirstLetter())\n")
         ingredientsArray.append(ingredient)
     }
     
@@ -67,7 +65,7 @@ class SearchViewController: UIViewController {
         //        if searchBar.text == "" { alert("Missing ingredient", "Some characters are missing..."); return }
         guard let ingredient = searchBar.text, ingredient != "" else {
             print("Error searchBar: characters are missing, or searchBar.text is nil")
-            alert("Missing ingredient", "Some characters are missing...")
+            alert("Something's missing", "Some characters are missing...")
             return
         }
         addIngredient(ingredient)
@@ -82,7 +80,7 @@ class SearchViewController: UIViewController {
     
     @IBAction func didPressSearchRecipesButton(_ sender: Any) {
         if ingredientsArray.isEmpty {
-            return alert("Something's missing", "You should add at least one ingredient")
+            return alert("Missing ingredient", "You should have at least one ingredient in your list")
         }
         pushRecipesList()
     }

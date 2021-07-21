@@ -18,7 +18,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="gqF-Sw-VsI">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" systemColor="systemOrangeColor"/>
+                        <color key="barTintColor" red="0.97276777029999995" green="0.78604859110000003" blue="0.54181283710000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" systemColor="labelColor"/>
                         </textAttributes>
@@ -36,7 +36,7 @@
             <objects>
                 <viewController id="yUW-Zv-edW" customClass="SearchViewController" customModule="Reciplease" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cND-34-AMY" userLabel="Global Search View">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hUb-Ja-l0D" userLabel="In Your Fridge View">
@@ -86,12 +86,9 @@
                                     <constraint firstItem="zgV-Vz-nFJ" firstAttribute="centerX" secondItem="hUb-Ja-l0D" secondAttribute="centerX" id="PgH-Qy-Vz2"/>
                                 </constraints>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ttH-HC-rUU" userLabel="List of ingredients that you want to search">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ttH-HC-rUU" userLabel="List of ingredients that you want to search">
                                 <rect key="frame" x="20" y="194" width="374" height="362"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="362" id="dxN-ee-Fj2"/>
-                                </constraints>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -140,6 +137,7 @@
                             <constraint firstItem="ttH-HC-rUU" firstAttribute="centerX" secondItem="hUb-Ja-l0D" secondAttribute="centerX" id="BQZ-FK-78z"/>
                             <constraint firstItem="ttH-HC-rUU" firstAttribute="centerX" secondItem="UNa-yr-zLr" secondAttribute="centerX" id="FRu-Ah-GXD"/>
                             <constraint firstItem="1QH-Cj-eOn" firstAttribute="leading" relation="lessThanOrEqual" secondItem="aIl-cO-6QS" secondAttribute="leading" constant="56" id="Iyx-op-K6t"/>
+                            <constraint firstItem="UNa-yr-zLr" firstAttribute="top" secondItem="ttH-HC-rUU" secondAttribute="bottom" constant="8" symbolic="YES" id="Kh9-eT-5Gp"/>
                             <constraint firstItem="ttH-HC-rUU" firstAttribute="leading" secondItem="cND-34-AMY" secondAttribute="leadingMargin" id="LmL-qW-CMd"/>
                             <constraint firstItem="UNa-yr-zLr" firstAttribute="leading" relation="lessThanOrEqual" secondItem="aIl-cO-6QS" secondAttribute="leading" constant="140" id="NRU-Mz-UY9"/>
                             <constraint firstItem="AbW-dj-2it" firstAttribute="centerX" secondItem="1QH-Cj-eOn" secondAttribute="centerX" id="aJM-5i-QRx"/>
@@ -150,7 +148,7 @@
                     <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" id="9Nk-HW-IGC"/>
                     <navigationItem key="navigationItem" id="Rmd-LU-qFJ"/>
                     <connections>
-                        <outlet property="addIngredientButton" destination="dnI-w4-8Zu" id="e31-kL-Yn5"/>
+                        <outlet property="addIngredientButton" destination="dnI-w4-8Zu" id="GlP-AS-cT8"/>
                         <outlet property="clearListButton" destination="UNa-yr-zLr" id="yfq-Q3-As0"/>
                         <outlet property="ingredientsListTextView" destination="ttH-HC-rUU" id="5SA-4W-ztS"/>
                         <outlet property="searchActivityIndicator" destination="AbW-dj-2it" id="Kfa-wY-cNT"/>
@@ -200,7 +198,7 @@
                     </view>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="resultsTableView" destination="ctn-Tw-Jhy" id="BlF-vc-8qZ"/>
+                        <outlet property="tableView" destination="ctn-Tw-Jhy" id="BlF-vc-8qZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="07b-K1-Et5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -230,12 +228,14 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IHI-yk-PRd">
                                 <rect key="frame" x="120" y="720" width="174" height="30"/>
                                 <color key="backgroundColor" red="0.97276777029999995" green="0.78604859110000003" blue="0.54181283710000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Get directions"/>
+                                <state key="normal" title="Get directions">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                </state>
                                 <connections>
                                     <action selector="didTapGetDirectionsButton:" destination="pni-h3-SPY" eventType="touchUpInside" id="zLM-ms-NRR"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="- ingredient" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zsW-Ay-jRU">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="- ingredient" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zsW-Ay-jRU">
                                 <rect key="frame" x="32" y="333" width="350" height="363"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -278,11 +278,10 @@
             <objects>
                 <tabBarController id="aRW-5P-ctx" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="pyf-DS-OhQ"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="U4b-zM-Dur">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="U4b-zM-Dur">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" red="1" green="0.74838367193972166" blue="0.43604089710746918" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.95184808970000001" green="0.78502827880000003" blue="0.56190091369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
@@ -310,9 +309,13 @@
             <objects>
                 <navigationController id="Byo-1d-flX" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Favorites" image="star" catalog="system" selectedImage="star.fill" id="ZdL-LG-zuB"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7eR-4T-dNo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="7eR-4T-dNo">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.96831792589999999" green="0.77873903509999998" blue="0.53791284559999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" systemColor="labelColor"/>
+                        </textAttributes>
                     </navigationBar>
                     <connections>
                         <segue destination="QzK-mF-s3K" kind="relationship" relationship="rootViewController" id="K5s-JA-BOC"/>
@@ -335,9 +338,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemOrangeColor">
-            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -16,7 +16,7 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
     var recipes: [Recipe] = []
     var recipe: Recipe?
     private var isRecipeFavorite = false
-    private var cellExtraInfoView = CellExtraInfoView()
+    private var cellExtraInfoView = ExtraInfoView()
     
     @IBOutlet weak var recipePicture: UIImageView!
     @IBOutlet weak var recipeName: UILabel!

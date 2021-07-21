@@ -6,12 +6,14 @@
 //
 
 import CoreData
+
 class StorageService {
     
-    
+    // MARK: - Properties
     static let shared = StorageService()
-    var viewContext: NSManagedObjectContext
+    private var viewContext: NSManagedObjectContext
     
+    // MARK: - Methods
     init(persistentContainer: NSPersistentContainer = AppDelegate.persistentContainer) {
         self.viewContext = persistentContainer.viewContext
     }
@@ -36,7 +38,7 @@ class StorageService {
         let recipeEntity = RecipesEntity(context: viewContext)
         recipeEntity.name = recipe.name
         recipeEntity.imageUrl = recipe.imageUrl
-        recipeEntity.ingredients = recipe.ingredients.joined(separator: ", ")
+        recipeEntity.ingredients = try? JSONEncoder().encode(recipe.ingredients)
         recipeEntity.totalTime = recipe.preparationTime
         recipeEntity.numberOfGuests = recipe.numberOfGuests
         recipeEntity.recipeUrl = recipe.recipeUrl
@@ -47,7 +49,6 @@ class StorageService {
     }
     
     func deleteRecipe(_ recipe: Recipe) throws {
-        
         let fetchRequest: NSFetchRequest<RecipesEntity> = RecipesEntity.fetchRequest()
         let predicate = NSPredicate(format: "name == %@", recipe.name)
         fetchRequest.predicate = predicate

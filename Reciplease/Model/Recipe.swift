@@ -51,7 +51,11 @@ extension Recipe {
         self.name = recipeEntity.name ?? ""
         self.recipeUrl = recipeEntity.recipeUrl ?? ""
         self.imageUrl = recipeEntity.imageUrl ?? ""
-        self.ingredients = recipeEntity.ingredients?.components(separatedBy: ",") ?? []
+        if let ingredientsData = recipeEntity.ingredients, let ingredients = try? JSONDecoder().decode([String].self, from: ingredientsData) {
+            self.ingredients = ingredients
+        } else {
+            self.ingredients = []
+        }
 //        self.ingredients = recipeEntity.ingredients // faire l'inverse de joined()
         self.numberOfGuests = recipeEntity.numberOfGuests
         self.preparationTime = recipeEntity.totalTime

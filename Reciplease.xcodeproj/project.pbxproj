@@ -31,11 +31,12 @@
 		97679AB0265E8A2300B67E5A /* AddDoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97679AAF265E8A2300B67E5A /* AddDoneButton.swift */; };
 		97679AC7265F9B3000B67E5A /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97679AC6265F9B3000B67E5A /* Alert.swift */; };
 		97679ADE265FCCC100B67E5A /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97679ADD265FCCC100B67E5A /* ListViewController.swift */; };
+		97BB4ADB26A6C96B00BAADB8 /* CapitalFirstLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB4ADA26A6C96B00BAADB8 /* CapitalFirstLetter.swift */; };
 		97CC106926944BCD0080D256 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CC106826944BCD0080D256 /* URLProtocolMock.swift */; };
 		97CC106E26944BDE0080D256 /* fakeResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CC106D26944BDE0080D256 /* fakeResponseData.swift */; };
 		97CC1073269499C10080D256 /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CC1072269499C10080D256 /* ServiceError.swift */; };
 		97CC107C26949D700080D256 /* Edamam.json in Resources */ = {isa = PBXBuildFile; fileRef = 97CC107B26949D700080D256 /* Edamam.json */; };
-		97E46F18268B1DA0000C0704 /* CellExtraInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E46F17268B1DA0000C0704 /* CellExtraInfoView.swift */; };
+		97E46F18268B1DA0000C0704 /* ExtraInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E46F17268B1DA0000C0704 /* ExtraInfoView.swift */; };
 		97F9D7422667A8F000B4D4C2 /* Favorite.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97F9D7412667A8F000B4D4C2 /* Favorite.storyboard */; };
 		D47DB49886205E067CA82E71 /* Pods_Reciplease.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 881E911EB4B2278896C2E9CF /* Pods_Reciplease.framework */; };
 /* End PBXBuildFile section */
@@ -94,11 +95,12 @@
 		97679AAF265E8A2300B67E5A /* AddDoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDoneButton.swift; sourceTree = "<group>"; };
 		97679AC6265F9B3000B67E5A /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		97679ADD265FCCC100B67E5A /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		97BB4ADA26A6C96B00BAADB8 /* CapitalFirstLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalFirstLetter.swift; sourceTree = "<group>"; };
 		97CC106826944BCD0080D256 /* URLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
 		97CC106D26944BDE0080D256 /* fakeResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fakeResponseData.swift; sourceTree = "<group>"; };
 		97CC1072269499C10080D256 /* ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
 		97CC107B26949D700080D256 /* Edamam.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Edamam.json; sourceTree = "<group>"; };
-		97E46F17268B1DA0000C0704 /* CellExtraInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellExtraInfoView.swift; sourceTree = "<group>"; };
+		97E46F17268B1DA0000C0704 /* ExtraInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraInfoView.swift; sourceTree = "<group>"; };
 		97F9D7412667A8F000B4D4C2 /* Favorite.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Favorite.storyboard; sourceTree = "<group>"; };
 		9A2C2E077E670CBAE1CD17BA /* Pods-RecipleaseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecipleaseTests.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-RecipleaseTests/Pods-RecipleaseTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BC3637BDF31923AB08F6D038 /* Pods-Reciplease.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reciplease.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-Reciplease/Pods-Reciplease.debug.xcconfig"; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 				97679A8B265D388600B67E5A /* SearchViewController.swift */,
 				9771B1D42680D9FD00D5CFEC /* ListViewController */,
 				973AD1CD266E241F0059B247 /* DetailsViewController.swift */,
+				97E46F17268B1DA0000C0704 /* ExtraInfoView.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 		97679AAE265E899600B67E5A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				97BB4AD926A6C92100BAADB8 /* String */,
 				9731157526A5CCE900C8F8C5 /* Double */,
 				9704D119266F81C9005F9FA8 /* UIImageView */,
 				971945AF266A81DB0019F909 /* UIButtonUIView */,
@@ -306,7 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				97679ADD265FCCC100B67E5A /* ListViewController.swift */,
-				9771B1E12680DB1900D5CFEC /* Cells */,
+				971945AA266A736C0019F909 /* RecipeCell.swift */,
 			);
 			path = ListViewController;
 			sourceTree = "<group>";
@@ -328,13 +332,12 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		9771B1E12680DB1900D5CFEC /* Cells */ = {
+		97BB4AD926A6C92100BAADB8 /* String */ = {
 			isa = PBXGroup;
 			children = (
-				971945AA266A736C0019F909 /* RecipeCell.swift */,
-				97E46F17268B1DA0000C0704 /* CellExtraInfoView.swift */,
+				97BB4ADA26A6C96B00BAADB8 /* CapitalFirstLetter.swift */,
 			);
-			path = Cells;
+			path = String;
 			sourceTree = "<group>";
 		};
 		97CC108026949D990080D256 /* Recipes API (Edamam) */ = {
@@ -604,7 +607,7 @@
 			files = (
 				9731157726A5CD1F00C8F8C5 /* DateFormatter.swift in Sources */,
 				973AD1C7266E1CF90059B247 /* StorageService.swift in Sources */,
-				97E46F18268B1DA0000C0704 /* CellExtraInfoView.swift in Sources */,
+				97E46F18268B1DA0000C0704 /* ExtraInfoView.swift in Sources */,
 				971945B1266A82060019F909 /* CornerRadius.swift in Sources */,
 				97679A8C265D388600B67E5A /* SearchViewController.swift in Sources */,
 				97679AB0265E8A2300B67E5A /* AddDoneButton.swift in Sources */,
@@ -614,6 +617,7 @@
 				97CC1073269499C10080D256 /* ServiceError.swift in Sources */,
 				97679ADE265FCCC100B67E5A /* ListViewController.swift in Sources */,
 				974231F0265BEBDC00316316 /* Reciplease.xcdatamodeld in Sources */,
+				97BB4ADB26A6C96B00BAADB8 /* CapitalFirstLetter.swift in Sources */,
 				97679A96265D3D8000B67E5A /* NetworkService.swift in Sources */,
 				97679AC7265F9B3000B67E5A /* Alert.swift in Sources */,
 				974231E6265BEBDC00316316 /* AppDelegate.swift in Sources */,
