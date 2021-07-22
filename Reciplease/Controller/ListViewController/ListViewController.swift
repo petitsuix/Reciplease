@@ -37,11 +37,6 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
     var dataMode: DataMode = .coreData
     var networkService = NetworkService()
     
-    private func resetState() {
-        tableView.isHidden = true
-        activityIndicator.stopAnimating()
-    }
-    
     private var viewState: State<[Recipe]> = .loading {
         didSet {
             resetState()
@@ -85,16 +80,21 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(activityIndicator)
         
-        title = dataMode.title
+        title = dataMode.title // Adapting title according to the dataMode we're in
         
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
+    
+    private func resetState() {
+        tableView.isHidden = true
+        activityIndicator.stopAnimating()
+    }
 
     private func getDataFromCorrespondingDataMode() {
-        if dataMode == .coreData { // If we're desplaying Favorites' list view controller
+        if dataMode == .coreData {
             do {
                 viewState = .loading // triggers activity indicator
                 recipes = try StorageService.shared.loadRecipes()
@@ -107,20 +107,20 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
             } catch {
                 print(error)
             }
-        } else {
-            fetchRecipes() // If we're displaying Search Results' list view controller
+        } else { // If dataMode == .api
+            fetchRecipes()
         }
     }
     
     private func fetchRecipes() {
-        viewState = .loading // triggers activity indicator
-        networkService.fetchData(for: ingredients) { [weak self] result in // calling data request. Completion waiting for a result of type Result<success, failure>
+        viewState = .loading // Triggers activity indicator
+        networkService.fetchData(for: ingredients) { [weak self] result in // Calling data request. Completion expecting a result of type Result<success, failure>
             guard let self = self else { return }
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { // Allows to modify UI from main thread
                 switch result {
                 case .success(let infoEdamamRequest):
                     if infoEdamamRequest.recipes.isEmpty {
-                        self.viewState = .empty // displays "no results found" view
+                        self.viewState = .empty // Displays "no results found" view
                     } else {
                         self.recipes = infoEdamamRequest.recipes
                         self.viewState = .showData(infoEdamamRequest.recipes)
@@ -133,6 +133,7 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         }
     }
     
+    // ⬇︎ Coded programmatically to be used in both Favorites and Search Results list views. Displays a simple view with a "nothing to show" message when their tableview is empty. 
     private func displayNoResultView() {
         let noResultTextView = UITextView.init(frame: self.view.frame)
         noResultTextView.text = "\n\n\n\n\nOops, nothing to show here !"
@@ -140,15 +141,16 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         noResultTextView.textColor = .systemGray
         noResultTextView.textAlignment = .center
         noResultTextView.isEditable = false
+        noResultTextView.adjustsFontForContentSizeCategory = true
         view.addSubview(noResultTextView)
     }
     
     private func displayRecipeDetailFor(_ recipe: Recipe) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let detailsViewController = storyboard.instantiateViewController(withIdentifier: "DetailsVC") as? DetailsViewController else { return }
+        guard let detailsViewController = storyboard.instantiateViewController(withIdentifier: "DetailsVC") as? DetailsViewController else { return } // Instantiating the given storyboard
         detailsViewController.recipe = recipe
         navigationController?.isNavigationBarHidden = false
-        navigationController?.pushViewController(detailsViewController, animated: true)
+        navigationController?.pushViewController(detailsViewController, animated: true) // Pushing detailsViewController
     }
     
     @objc func dismissListViewController() {
@@ -158,7 +160,7 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
 
 // MARK: - TableView
 extension ListViewController: UITableViewDataSource, UITableViewDelegate {
-    // faire les cellCustom dans le code, faire recipeCell
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

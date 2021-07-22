@@ -23,20 +23,26 @@ class SearchViewController: UIViewController {
     // MARK: - View life cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        addIngredientButton.roundingButtonCorners(radius: 5)
-        clearListButton.roundingButtonCorners(radius: 5)
-        searchRecipesButton.roundingButtonCorners(radius: 15)
-        searchActivityIndicator.isHidden = true
+        configureView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
     }
     
-    
     // MARK: - Methods
-    private func ingredientsListFormatted() -> String {
-        return ingredientsArray.joined(separator: ",")
+    
+    private func configureView() {
+        searchActivityIndicator.isHidden = true
+        
+        addIngredientButton.adjustsImageSizeForAccessibilityContentSizeCategory = true
+        addIngredientButton.roundingButtonCorners(radius: 5)
+        
+        clearListButton.adjustsImageSizeForAccessibilityContentSizeCategory = true
+        clearListButton.roundingButtonCorners(radius: 5)
+        
+        searchRecipesButton.adjustsImageSizeForAccessibilityContentSizeCategory = true
+        searchRecipesButton.roundingButtonCorners(radius: 15)
     }
     
     private func addIngredient(_ ingredient: String) {
@@ -48,28 +54,31 @@ class SearchViewController: UIViewController {
         searchBar.text = ""
     }
     
-    private func pushRecipesList() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        guard let recipesListViewController = storyboard.instantiateViewController(withIdentifier: "List View Controller") as? ListViewController else { return } // Instantiation
-        recipesListViewController.ingredients = ingredientsListFormatted()
-        recipesListViewController.recipes = recipes
-        recipesListViewController.dataMode = .api
-        navigationController?.isNavigationBarHidden = false
-        navigationController?.pushViewController(recipesListViewController, animated: true)
+    // ⬇︎ Ensures user's ingredients list translates as a readable line of characters for a request
+    private func ingredientsListFormatted() -> String {
+        return ingredientsArray.joined(separator: ",")
     }
     
+    private func pushSearchResultsList() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let listViewController = storyboard.instantiateViewController(withIdentifier: "List View Controller") as? ListViewController else { return } // Instantiating the given storyboard
+        listViewController.ingredients = ingredientsListFormatted()
+        listViewController.recipes = recipes
+        listViewController.dataMode = .api
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.pushViewController(listViewController, animated: true) // Pushing listViewController after changing .dataMode default value to .api
+    }
     
     // MARK: - IBAction methods
+    
     @IBAction func didPressAddButton(_ sender: Any) {
-        //        if searchBar.text == "" { alert("Missing ingredient", "Some characters are missing..."); return }
         guard let ingredient = searchBar.text, ingredient != "" else {
             print("Error searchBar: characters are missing, or searchBar.text is nil")
             alert("Something's missing", "Some characters are missing...")
             return
         }
         addIngredient(ingredient)
-        searchBar.doneButtonTapped()
+        searchBar.doneButtonTapped() // resigns first responder
         cleanSearchBar()
     }
     
@@ -82,6 +91,6 @@ class SearchViewController: UIViewController {
         if ingredientsArray.isEmpty {
             return alert("Missing ingredient", "You should have at least one ingredient in your list")
         }
-        pushRecipesList()
+        pushSearchResultsList()
     }
 }
