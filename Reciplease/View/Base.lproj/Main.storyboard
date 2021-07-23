@@ -68,7 +68,7 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <state key="normal" title="Add">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <color key="titleColor" systemColor="labelColor"/>
                                                         </state>
                                                         <connections>
                                                             <action selector="didPressAddButton:" destination="yUW-Zv-edW" eventType="touchUpInside" id="11X-md-EKV"/>
@@ -101,7 +101,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="Search recipes">
-                                    <color key="titleColor" systemColor="systemBackgroundColor"/>
+                                    <color key="titleColor" systemColor="labelColor"/>
                                 </state>
                                 <connections>
                                     <action selector="didPressSearchRecipesButton:" destination="yUW-Zv-edW" eventType="touchUpInside" id="A6i-Lg-hho"/>
@@ -118,7 +118,7 @@
                                     <constraint firstAttribute="height" constant="44" id="9nW-OO-7rm"/>
                                 </constraints>
                                 <state key="normal" title="Clear list">
-                                    <color key="titleColor" systemColor="systemBackgroundColor"/>
+                                    <color key="titleColor" systemColor="labelColor"/>
                                 </state>
                                 <connections>
                                     <action selector="didPressClearListButton:" destination="yUW-Zv-edW" eventType="touchUpInside" id="f26-mc-ANO"/>
@@ -220,8 +220,8 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NotreRecette" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XVz-xd-0oT">
-                                <rect key="frame" x="16" y="280" width="382" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="16" y="280" width="382" height="33.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -236,10 +236,10 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="- ingredient" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zsW-Ay-jRU">
-                                <rect key="frame" x="32" y="333" width="350" height="363"/>
+                                <rect key="frame" x="32" y="346" width="350" height="350"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
@@ -282,7 +282,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.95184808970000001" green="0.78502827880000003" blue="0.56190091369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" systemColor="labelColor"/>
                     </tabBar>
                     <connections>
                         <segue destination="PjL-HK-JCF" kind="relationship" relationship="viewControllers" id="SeE-Ue-aZG"/>
@@ -308,7 +308,7 @@
         <scene sceneID="e0X-Zy-Z4V">
             <objects>
                 <navigationController id="Byo-1d-flX" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Favorites" image="star" catalog="system" selectedImage="star.fill" id="ZdL-LG-zuB"/>
+                    <tabBarItem key="tabBarItem" title="Favorites" image="star" catalog="system" selectedImage="star" id="ZdL-LG-zuB"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="7eR-4T-dNo">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -329,7 +329,6 @@
     <resources>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="star" catalog="system" width="128" height="116"/>
-        <image name="star.fill" catalog="system" width="128" height="116"/>
         <namedColor name="AccentColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </namedColor>

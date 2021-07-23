@@ -56,7 +56,6 @@ extension Recipe {
         } else {
             self.ingredients = []
         }
-//        self.ingredients = recipeEntity.ingredients // faire l'inverse de joined()
         self.numberOfGuests = recipeEntity.numberOfGuests
         self.preparationTime = recipeEntity.totalTime
     }
@@ -65,7 +64,6 @@ extension Recipe {
 extension Recipe: Equatable {
     static func == (lhs: Recipe, rhs: Recipe) -> Bool {
         return lhs.name == rhs.name
-        // Ajouter comparaison par rapport à l'URL aussi, peut-être ? pour etre sur que ce soit des recettes différentes
     }
 }
 

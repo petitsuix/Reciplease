@@ -71,7 +71,6 @@
 		971945AA266A736C0019F909 /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
 		971945B0266A82060019F909 /* CornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerRadius.swift; sourceTree = "<group>"; };
 		9731157626A5CD1F00C8F8C5 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
-		9731158226A5D57000C8F8C5 /* RecipleaseTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RecipleaseTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		9731158626A5D58200C8F8C5 /* RecipleaseTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RecipleaseTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		97390F2D265D2303003DA351 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		973AD1C6266E1CF90059B247 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
@@ -240,7 +239,6 @@
 				9771B1E02680DAED00D5CFEC /* Resources */,
 				974231EE265BEBDC00316316 /* Reciplease.xcdatamodeld */,
 				974231F6265BEBE100316316 /* Info.plist */,
-				9731158226A5D57000C8F8C5 /* RecipleaseTests-Bridging-Header.h */,
 			);
 			path = Reciplease;
 			sourceTree = "<group>";

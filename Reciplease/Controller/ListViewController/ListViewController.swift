@@ -30,6 +30,7 @@ enum State<Data> {
 class ListViewController: UIViewController, UINavigationBarDelegate {
     
     // MARK: - Properties
+    
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     var ingredients: String = ""
     var recipes: [Recipe] = []
@@ -39,7 +40,7 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
     
     private var viewState: State<[Recipe]> = .loading {
         didSet {
-            resetState()
+            resetState() // Hides tableview, stops activity indicator animation
             switch viewState {
             case .loading :
                 activityIndicator.startAnimating()
@@ -48,8 +49,8 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
                 displayNoResultView()
                 print("empty")
             case .error :
-                alert("Oops...", "Something went wrong,please try again")
-                print("error")
+                alert("Oops...", "Something went wrong, please try again")
+                print("error : fell into the .error case of viewState")
             case .showData(let recipes) :
                 self.recipes = recipes
                 tableView.reloadData()
@@ -77,6 +78,7 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         tableView.dataSource = self
         tableView.delegate = self
         
+        self.tableView.tableFooterView = UIView()
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(activityIndicator)
         
@@ -92,21 +94,17 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         tableView.isHidden = true
         activityIndicator.stopAnimating()
     }
-
+    
     private func getDataFromCorrespondingDataMode() {
         if dataMode == .coreData {
             do {
-                viewState = .loading // triggers activity indicator
                 recipes = try StorageService.shared.loadRecipes()
-                self.activityIndicator.stopAnimating()
                 if recipes.isEmpty {
-                    viewState = .empty // displays "no results found" view
+                    viewState = .empty // Displays "no results found" view
                 } else {
                     viewState = .showData(recipes)
                 }
-            } catch {
-                print(error)
-            }
+            } catch { print(error) }
         } else { // If dataMode == .api
             fetchRecipes()
         }
@@ -118,13 +116,10 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
             guard let self = self else { return }
             DispatchQueue.main.async { // Allows to modify UI from main thread
                 switch result {
+                case .success(let infoEdamamRequest) where infoEdamamRequest.recipes.isEmpty :
+                    self.viewState = .empty
                 case .success(let infoEdamamRequest):
-                    if infoEdamamRequest.recipes.isEmpty {
-                        self.viewState = .empty // Displays "no results found" view
-                    } else {
-                        self.recipes = infoEdamamRequest.recipes
-                        self.viewState = .showData(infoEdamamRequest.recipes)
-                    }
+                    self.viewState = .showData(infoEdamamRequest.recipes)
                 case .failure(let error):
                     self.alert("Houston ?", "Something went wrong while trying to load recipes. Perhaps you should give it another try ?")
                     print(error)
@@ -142,25 +137,21 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         noResultTextView.textAlignment = .center
         noResultTextView.isEditable = false
         noResultTextView.adjustsFontForContentSizeCategory = true
-        view.addSubview(noResultTextView)
+        view.insertSubview(noResultTextView, at: 0)
     }
     
     private func displayRecipeDetailFor(_ recipe: Recipe) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let detailsViewController = storyboard.instantiateViewController(withIdentifier: "DetailsVC") as? DetailsViewController else { return } // Instantiating the given storyboard
+        guard let detailsViewController = storyboard.instantiateViewController(withIdentifier: "DetailsVC") as? DetailsViewController else { return } // Instantiating the given controller
         detailsViewController.recipe = recipe
         navigationController?.isNavigationBarHidden = false
         navigationController?.pushViewController(detailsViewController, animated: true) // Pushing detailsViewController
-    }
-    
-    @objc func dismissListViewController() {
-        dismiss(animated: true, completion: nil)
     }
 }
 
 // MARK: - TableView
 extension ListViewController: UITableViewDataSource, UITableViewDelegate {
-
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -170,7 +161,7 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         displayRecipeDetailFor(selectedRecipe)
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { // Mandatory
         return recipes.count
     }
     
@@ -178,8 +169,7 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         return 160
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // returning the cell depending on dataMode
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { // Mandatory
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell") as? RecipeCell else {
             assertionFailure("Dequeue TableViewCell is of wrong type")
             return UITableViewCell()
@@ -190,15 +180,14 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard dataMode == .coreData else { return }
-        if editingStyle == .delete {
-            // Delete the recipe in the core data "memory"
+        if editingStyle == .delete { // Delete the recipe in core data memory
             do {
                 try StorageService.shared.deleteRecipe(recipes[indexPath.row])
             } catch  {
-                print("error")
+                print(ServiceError.deletingError)
+                alert("Oops...", "Could not reach and delete this recipe")
             }
-            // Then delete the row from the data source
-            recipes.remove(at: indexPath.row)
+            recipes.remove(at: indexPath.row) // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
         if recipes.isEmpty {

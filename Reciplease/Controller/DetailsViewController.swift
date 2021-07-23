@@ -12,8 +12,6 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
     
     // MARK: - Properties
     
-    
-    var recipes: [Recipe] = []
     var recipe: Recipe?
     private var isRecipeFavorite = false
     private var cellExtraInfoView = ExtraInfoView()
@@ -41,33 +39,15 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
     // MARK: - Methods
     
     private func setUpView() {
-        cellExtraInfoView.roundingViewCorners(radius: 3)
+        setUpRecipeDetailsAndPicture()
+        
         cellExtraInfoView.translatesAutoresizingMaskIntoConstraints = false
-        
+        cellExtraInfoView.roundingViewCorners(radius: 3)
+        getDirectionsButton.titleLabel?.adjustsFontForContentSizeCategory = true
         getDirectionsButton.roundingButtonCorners(radius: 4)
-        
-        recipeName.text = recipe?.name
-        recipeName.numberOfLines = 0
-        if let ingredients = recipe?.ingredients {
-            self.ingredients.text = "• \(ingredients.joined(separator: "\n• "))"
-        } else {
-            self.ingredients.text = "Oops ! Something went wrong while trying to display ingredients list.\n"
-            alert("Houston ?", "It seems the ingredients list could not be shown. Try reloading the page or restarting Reciplease !")
-        }
-        
-        if let imageUrl = recipe?.imageUrl {
-            recipePicture.loadRecipePhoto(imageUrl)
-        } else {
-            recipePicture.image = UIImage(named: "ingredients")
-        }
-        recipePicture.alpha = 0.55
         view.addSubview(cellExtraInfoView)
         
-        NSLayoutConstraint.activate([
-            cellExtraInfoView.topAnchor.constraint(equalToSystemSpacingBelow: recipePicture.topAnchor, multiplier: 1),
-            recipePicture.trailingAnchor.constraint(equalToSystemSpacingAfter: cellExtraInfoView.trailingAnchor, multiplier: 1),
-            cellExtraInfoView.leadingAnchor.constraint(equalToSystemSpacingAfter: recipePicture.leadingAnchor, multiplier: 43),
-        ])
+        activateConstraints()
     }
     
     private func addToFavorite() {
@@ -76,8 +56,8 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
             try StorageService.shared.saveRecipe(recipe)
             fetchFavoriteState()
         } catch {
+            print(ServiceError.savingError)
             alert("Well, well...", "It seems this recipe can't be saved")
-            print(error)
         }
     }
     
@@ -87,7 +67,8 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
             try StorageService.shared.deleteRecipe(recipe)
             isRecipeFavorite = false
         } catch {
-            print(error) // gérer les erreurs
+            print(ServiceError.deletingError)
+            alert("Oops...", "Could not reach and delete this recipe")
         }
     }
     
@@ -107,15 +88,41 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
         navigationItem.rightBarButtonItem = navBarRightItem
     }
     
+    private func setUpRecipeDetailsAndPicture() {
+        recipeName.adjustsFontForContentSizeCategory = true
+        recipeName.text = recipe?.name
+        recipeName.font = UIFont.preferredFont(forTextStyle: .title1)
+        recipeName.numberOfLines = 0
+        if let ingredients = recipe?.ingredients {
+            self.ingredients.text = "• \(ingredients.joined(separator: "\n• "))"
+        } else {
+            print("Error: recipe.ingredients is nil")
+            alert("Houston ?", "It seems the ingredients list could not be shown. Try reloading the page or restarting Reciplease !")
+        }
+        if let imageUrl = recipe?.imageUrl {
+            recipePicture.loadRecipePhoto(imageUrl)
+        } else {
+            recipePicture.image = UIImage(named: "ingredients")
+        }
+        recipePicture.alpha = 0.55
+    }
+    
+    private func activateConstraints() {
+        NSLayoutConstraint.activate([
+            cellExtraInfoView.topAnchor.constraint(equalToSystemSpacingBelow: recipePicture.topAnchor, multiplier: 1),
+            recipePicture.trailingAnchor.constraint(equalToSystemSpacingAfter: cellExtraInfoView.trailingAnchor, multiplier: 1),
+            cellExtraInfoView.leadingAnchor.constraint(equalToSystemSpacingAfter: recipePicture.leadingAnchor, multiplier: 43),
+        ])
+    }
+    
+    // MARK: - objc Methods
+    
     @objc func toggleFavorite() {
-        // vérifie si c'est en favoris, add to favorite ou remove from favorite <- gère l'entity
-        if isRecipeFavorite {
-            // suppression du favori
+        if isRecipeFavorite == true {
             navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart")
             removeFromFavorite()
             isRecipeFavorite = false
-        } else if isRecipeFavorite == false {
-            // ajout du favori
+        } else {
             navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")
             addToFavorite()
             isRecipeFavorite = true
@@ -129,7 +136,9 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
             safariViewController.delegate = self
             present(safariViewController, animated: true)
         }
-    } // voir methode safari, prensent()
+    }
+    
+    // MARK: - IBAction Methods
     
     @IBAction func didTapGetDirectionsButton(_ sender: Any) {
         openRecipeWebsite()

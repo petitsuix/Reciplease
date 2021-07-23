@@ -15,6 +15,8 @@ enum ServiceError: Error {
     case decodingError
     case invalidUrl
     case savingError
+    case deletingError
+    case loadingError
 }
 
 extension ServiceError: LocalizedError {
@@ -34,6 +36,10 @@ extension ServiceError: LocalizedError {
             return "invalid URL"
         case .savingError:
             return "error while trying to save data"
+        case .deletingError:
+            return "error while trying to reach and delete data"
+        case .loadingError:
+            return "error while trying to load data"
         }
     }
 }

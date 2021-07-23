@@ -12,8 +12,12 @@ import XCTest
 
 class RecipesApi: XCTestCase {
 
+    // MARK: - Properties
+    
     var session: Session!
     var networkService: NetworkService!
+    
+    // MARK: - setUp & tearDown Methods
     
     override func setUp() {
         let configuration = URLSessionConfiguration.default
@@ -26,6 +30,8 @@ class RecipesApi: XCTestCase {
         UrlProtocolMock.data = nil
         UrlProtocolMock.error = nil
     }
+    
+    // MARK: - Tests
     
     func testGetRecipesShouldPostFailedCompletionIfError() throws {
         UrlProtocolMock.error = AFError.explicitlyCancelled

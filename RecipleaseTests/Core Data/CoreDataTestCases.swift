@@ -10,12 +10,17 @@ import XCTest
 @testable import Reciplease
 
 class CoreDataTestCases: XCTestCase {
+    
+    // MARK: - Properties
+    
     var storageService: StorageService!
     var loadedRecipes: [Recipe] = []
     
     let recipe1 = FakeResponseData.recipe.first!
     let recipe2 = FakeResponseData.recipe[1]
     let recipe3 = FakeResponseData.recipe[2]
+    
+    // MARK: - setUp & tearDown Methods
     
     override func setUp() {
         super.setUp()
@@ -44,6 +49,8 @@ class CoreDataTestCases: XCTestCase {
         super.tearDown()
     }
     
+    // MARK: - Tests
+    
     func testRecipeLoading() {
         var loadedRecipes: [Recipe] = []
         
@@ -62,23 +69,7 @@ class CoreDataTestCases: XCTestCase {
         }
         XCTAssertFalse(loadedRecipes.isEmpty)
     }
-    
-    
-    //    func testRecipeLoadingShouldFail() {
-    //        var loadedRecipes: [Recipe] = []
-    //
-    //        let recipe = FakeResponseData.recipe.first!
-    //        storageService.viewContext = FakeResponseData.viewContext!
-    //
-    //        do {
-    //            try storageService.saveRecipe(recipe)
-    //        } catch {
-    //            XCTFail("error saving \(error.localizedDescription)")
-    //        }
-    //        XCTAssertThrowsError(try storageService.saveRecipe(recipe))
-    //    }
-    //
-    
+
     func testDeleteRecipe() {
         for recipe in loadedRecipes {
             do {

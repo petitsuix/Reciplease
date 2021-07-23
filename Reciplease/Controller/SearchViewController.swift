@@ -61,7 +61,7 @@ class SearchViewController: UIViewController {
     
     private func pushSearchResultsList() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let listViewController = storyboard.instantiateViewController(withIdentifier: "List View Controller") as? ListViewController else { return } // Instantiating the given storyboard
+        guard let listViewController = storyboard.instantiateViewController(withIdentifier: "List View Controller") as? ListViewController else { return } // Instantiating the given controller
         listViewController.ingredients = ingredientsListFormatted()
         listViewController.recipes = recipes
         listViewController.dataMode = .api
