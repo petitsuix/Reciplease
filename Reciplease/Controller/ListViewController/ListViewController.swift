@@ -20,7 +20,7 @@ enum DataMode {
     }
 }
 
-enum State<Data> {
+enum State<Data> { // To execute particular actions according to the situation
     case loading
     case empty
     case error
@@ -31,12 +31,11 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
     
     // MARK: - Properties
     
-    private let activityIndicator = UIActivityIndicatorView(style: .large)
     var ingredients: String = ""
     var recipes: [Recipe] = []
-    // peut-être poser ici un didSet qui check si recipes est empty
     var dataMode: DataMode = .coreData
     var networkService = NetworkService()
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
     
     private var viewState: State<[Recipe]> = .loading {
         didSet {
@@ -49,7 +48,7 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
                 displayNoResultView()
                 print("empty")
             case .error :
-                alert("Oops...", "Something went wrong, please try again")
+                alert("Oops...", "Something went wrong, please try again.")
                 print("error : fell into the .error case of viewState")
             case .showData(let recipes) :
                 self.recipes = recipes
@@ -136,6 +135,7 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         noResultTextView.textColor = .systemGray
         noResultTextView.textAlignment = .center
         noResultTextView.isEditable = false
+        noResultTextView.translatesAutoresizingMaskIntoConstraints = false
         noResultTextView.adjustsFontForContentSizeCategory = true
         view.insertSubview(noResultTextView, at: 0)
     }
@@ -178,20 +178,22 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        guard dataMode == .coreData else { return }
-        if editingStyle == .delete { // Delete the recipe in core data memory
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard dataMode == .coreData else { return nil }
+        let action = UIContextualAction(style: .destructive, title: "Remove") { [weak self]
+            (action, view, completionHandler) in
             do {
+                guard let recipes = self?.recipes else { return }
                 try StorageService.shared.deleteRecipe(recipes[indexPath.row])
-            } catch  {
-                print(ServiceError.deletingError)
-                alert("Oops...", "Could not reach and delete this recipe")
             }
-            recipes.remove(at: indexPath.row) // Delete the row from the data source
+            catch {}
+            self?.recipes.remove(at: indexPath.row) // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
+            if self?.recipes.isEmpty == true {
+                self?.viewState = .empty
+            }
+            completionHandler(true)
         }
-        if recipes.isEmpty {
-            viewState = .empty
-        }
+        return UISwipeActionsConfiguration(actions: [action])
     }
 }

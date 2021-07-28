@@ -34,15 +34,16 @@ class RecipesApi: XCTestCase {
     // MARK: - Tests
     
     func testGetRecipesShouldPostFailedCompletionIfError() throws {
+        let expectation = XCTestExpectation(description: "get recipes") // Purpose is being able to wait for the request, operated asynchronously. Otherwise, the end of the test is read immediately without going through the completion.
+        // Given :
         UrlProtocolMock.error = AFError.explicitlyCancelled
         // When :
-        let expectation = XCTestExpectation(description: "get recipes")
         networkService.fetchData(for: "chicken") { (result) in
-            // Then :
             guard case .failure(let error) = result else {
                 XCTFail("Missing failure error")
                 return
             }
+            // Then :
             XCTAssertNotNil(error)
             expectation.fulfill()
         }
@@ -50,10 +51,10 @@ class RecipesApi: XCTestCase {
     }
 
     func testGetRecipesShouldWork() throws {
+        let expectation = XCTestExpectation(description: "get recipes")
         // Given :
         UrlProtocolMock.data = FakeResponseData.recipeData
         // When :
-        let expectation = XCTestExpectation(description: "get recipes")
         networkService.fetchData(for: "chicken") { (result) in
             // Then :
             guard case .success(let recipes) = result else {

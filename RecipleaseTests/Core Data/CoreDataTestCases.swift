@@ -30,7 +30,7 @@ class CoreDataTestCases: XCTestCase {
         let persistentStoreDescription = NSPersistentStoreDescription()
         persistentStoreDescription.type = NSInMemoryStoreType
         persistentStoreDescription.shouldAddStoreAsynchronously = true
-        
+       
         let persistentContainer = NSPersistentContainer(name: "Reciplease",
                                                         managedObjectModel: managedObjectModel)
         persistentContainer.persistentStoreDescriptions = [persistentStoreDescription]

@@ -7,7 +7,7 @@
 
 import UIKit
 
-// Contains extra info about prep time and number of guests
+/// ⬇︎ Configured to show extra info, 2 icons and 2 labels, about preparation time and number of guests. ExtraInfoView is called in RecipeCell & DetailsViewController.
 
 class ExtraInfoView: UIView {
     
@@ -50,7 +50,7 @@ class ExtraInfoView: UIView {
         } else {
             self.numberOfGuests.text = "- "
         }
-        if let preparationTime = recipe?.preparationTime, recipe?.preparationTime != 0.0 {
+        if let preparationTime = recipe?.totalTime, recipe?.totalTime != 0.0 {
             self.preparationTime.text = "\(preparationTime.timeFormatter())"
         } else {
             self.preparationTime.text = "- "
@@ -69,10 +69,13 @@ class ExtraInfoView: UIView {
     
     private func configurePreparationTimeStackView() {
         preparationTime.textAlignment = .center
+        preparationTime.translatesAutoresizingMaskIntoConstraints = false
         preparationTimeIcon.image = UIImage(systemName: "alarm.fill")
         preparationTimeIcon.tintColor = .label
+        preparationTimeIcon.translatesAutoresizingMaskIntoConstraints = false
         preparationTimeStackView.spacing = 4
         preparationTimeStackView.distribution = .fillProportionally
+        preparationTimeStackView.translatesAutoresizingMaskIntoConstraints = false
         preparationTimeStackView.addArrangedSubview(preparationTimeIcon)
         preparationTimeStackView.addArrangedSubview(preparationTime)
     }

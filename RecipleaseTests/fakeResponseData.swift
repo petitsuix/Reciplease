@@ -16,10 +16,9 @@ final class FakeResponseData {
     static let viewContext: NSManagedObjectContext? = nil
     
     static var recipe: [Recipe] {
-        let recipeInfo = try! JSONDecoder().decode(InfoEdamamRequest.self, from: recipeData)
+        let recipeInfo = try! JSONDecoder().decode(InfoRecipe.self, from: recipeData)
         return recipeInfo.recipes
     }
-    
     
     static var recipeData: Data {
         let bundle = Bundle(for: FakeResponseData.self)

@@ -11,7 +11,7 @@ class RecipeCell: UITableViewCell {
     
     // MARK: - Properties
     
-    private var cellExtraInfoView = ExtraInfoView()
+    private var extraInfoView = ExtraInfoView() // Small inset. Shows preparation time's and nb of guests' values and icons
     private var cellBackgroundImage = UIImageView()
     private var recipeNameLabel = UILabel()
     private var ingredientsPreviewLabel = UILabel()
@@ -24,18 +24,24 @@ class RecipeCell: UITableViewCell {
     }
     
     // MARK: - Methods
-    
-    // FIXME: peut être à enlever ?
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         configureCell()
-        cellExtraInfoView.configureView()
+        
     }
+    
+    // Can be used to replace the required init bellow, in order to prevent any modification through storyboard
+/*    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    } */
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         configureCell()
-        cellExtraInfoView.configureView()
+        // TODO:
+        extraInfoView.configureView()
     }
     
     private func configureCell() {
@@ -46,17 +52,20 @@ class RecipeCell: UITableViewCell {
         contentView.sendSubviewToBack(cellBackgroundImage)
         
         configureNameAndIngredientsLabels()
+        
         configureNameAndIngredientsStackView()
+        contentView.addSubview(nameAndIngredientsStackView)
         
-        cellExtraInfoView.roundingViewCorners(radius: 3)
-        cellExtraInfoView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(cellExtraInfoView)
+        extraInfoView.configureView()
+        extraInfoView.roundingViewCorners(radius: 3)
+        extraInfoView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(extraInfoView)
         
-        activateCellConstraints()
+        activateConstraints()
     }
     
     private func refreshData() {
-        cellExtraInfoView.recipe = recipe
+        extraInfoView.recipe = recipe
         
         recipeNameLabel.text = recipe?.name
         ingredientsPreviewLabel.text = recipe?.ingredients.joined(separator: ", ")
@@ -71,7 +80,6 @@ class RecipeCell: UITableViewCell {
         recipeNameLabel.adjustsFontForContentSizeCategory = true
         recipeNameLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         recipeNameLabel.textColor = .label
-        // mettre numberOflines
         recipeNameLabel.numberOfLines = 0
         recipeNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -88,13 +96,11 @@ class RecipeCell: UITableViewCell {
         nameAndIngredientsStackView.contentMode = .scaleAspectFit
         nameAndIngredientsStackView.translatesAutoresizingMaskIntoConstraints = false
         nameAndIngredientsStackView.axis = .vertical
-        
         nameAndIngredientsStackView.addArrangedSubview(recipeNameLabel)
         nameAndIngredientsStackView.addArrangedSubview(ingredientsPreviewLabel)
-        contentView.addSubview(nameAndIngredientsStackView)
     }
     
-    private func activateCellConstraints() {
+    private func activateConstraints() {
         NSLayoutConstraint.activate([
             // Background image
             cellBackgroundImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
@@ -109,23 +115,9 @@ class RecipeCell: UITableViewCell {
             contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: nameAndIngredientsStackView.bottomAnchor, multiplier: 2),
             
             // Cell extra info view
-            cellExtraInfoView.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1),
-            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: cellExtraInfoView.trailingAnchor, multiplier: 1),
-            cellExtraInfoView.leadingAnchor.constraint(lessThanOrEqualToSystemSpacingAfter: nameAndIngredientsStackView.trailingAnchor, multiplier: 8.5)
+            extraInfoView.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1),
+            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: extraInfoView.trailingAnchor, multiplier: 1),
+            extraInfoView.leadingAnchor.constraint(lessThanOrEqualToSystemSpacingAfter: nameAndIngredientsStackView.trailingAnchor, multiplier: 8.5)
         ])
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
-    }
-    
-    
-    
 }

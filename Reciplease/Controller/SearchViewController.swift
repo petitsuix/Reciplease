@@ -11,7 +11,6 @@ class SearchViewController: UIViewController {
     
     // MARK: - Properties
     private var ingredientsArray: [String] = []
-    private var recipes: [Recipe] = []
     
     @IBOutlet weak var searchBar: UITextField! { didSet { searchBar?.addDoneToolbar() } }
     @IBOutlet weak var addIngredientButton: UIButton!
@@ -28,6 +27,31 @@ class SearchViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    // MARK: - IBAction methods
+    
+    @IBAction func didPressAddButton(_ sender: Any) {
+        guard let ingredient = searchBar.text, ingredient != "" else {
+            print("Error searchBar: characters are missing, or searchBar.text is nil")
+            alert("Something's missing", "Some characters are missing...")
+            return
+        }
+        addIngredient(ingredient)
+        searchBar.doneButtonTapped() // resigns first responder
+        cleanSearchBar()
+    }
+    
+    @IBAction func didPressClearListButton(_ sender: Any) {
+        ingredientsArray.removeAll()
+        ingredientsListTextView.text = ""
+    }
+    
+    @IBAction func didPressSearchRecipesButton(_ sender: Any) {
+        if ingredientsArray.isEmpty {
+            return alert("Missing ingredient", "You should have at least one ingredient in your list")
+        }
+        pushSearchResultsList()
     }
     
     // MARK: - Methods
@@ -63,34 +87,8 @@ class SearchViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let listViewController = storyboard.instantiateViewController(withIdentifier: "List View Controller") as? ListViewController else { return } // Instantiating the given controller
         listViewController.ingredients = ingredientsListFormatted()
-        listViewController.recipes = recipes
         listViewController.dataMode = .api
         navigationController?.isNavigationBarHidden = false
         navigationController?.pushViewController(listViewController, animated: true) // Pushing listViewController after changing .dataMode default value to .api
-    }
-    
-    // MARK: - IBAction methods
-    
-    @IBAction func didPressAddButton(_ sender: Any) {
-        guard let ingredient = searchBar.text, ingredient != "" else {
-            print("Error searchBar: characters are missing, or searchBar.text is nil")
-            alert("Something's missing", "Some characters are missing...")
-            return
-        }
-        addIngredient(ingredient)
-        searchBar.doneButtonTapped() // resigns first responder
-        cleanSearchBar()
-    }
-    
-    @IBAction func didPressClearListButton(_ sender: Any) {
-        ingredientsArray.removeAll()
-        ingredientsListTextView.text = ""
-    }
-    
-    @IBAction func didPressSearchRecipesButton(_ sender: Any) {
-        if ingredientsArray.isEmpty {
-            return alert("Missing ingredient", "You should have at least one ingredient in your list")
-        }
-        pushSearchResultsList()
     }
 }

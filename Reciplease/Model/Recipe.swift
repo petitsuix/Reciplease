@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InfoEdamamRequest: Decodable {
+struct InfoRecipe: Decodable {
     
     let recipes: [Recipe]
     
@@ -22,15 +22,15 @@ struct Recipe: Decodable {
     let imageUrl: String?
     let numberOfGuests: Double
     let ingredients: [String]
-    let preparationTime: Double
+    let totalTime: Double
     
     enum CodingKeys: String, CodingKey {
+        case recipe
         case name = "label"
         case recipeUrl = "url"
-        case recipe
         case imageUrl = "image"
-        case numberOfGuests = "yield"
         case ingredients = "ingredientLines"
+        case numberOfGuests = "yield"
         case totalTime
     }
     
@@ -42,7 +42,7 @@ struct Recipe: Decodable {
         imageUrl = try recipe.decode(String.self, forKey: .imageUrl)
         ingredients = try recipe.decode([String].self, forKey: .ingredients)
         numberOfGuests = try recipe.decode(Double.self, forKey: .numberOfGuests)
-        preparationTime = try recipe.decode(Double.self, forKey: .totalTime)
+        totalTime = try recipe.decode(Double.self, forKey: .totalTime)
     }
 }
 
@@ -57,7 +57,7 @@ extension Recipe {
             self.ingredients = []
         }
         self.numberOfGuests = recipeEntity.numberOfGuests
-        self.preparationTime = recipeEntity.totalTime
+        self.totalTime = recipeEntity.totalTime
     }
 }
 
@@ -67,9 +67,9 @@ extension Recipe: Equatable {
     }
 }
 
-struct Ingredient: Decodable {
-    let text: String
-    let weight: Double
-    let image: String?
-}
+// struct Ingredient: Decodable {
+//    let text: String
+//    let weight: Double
+//    let image: String?
+//}
 

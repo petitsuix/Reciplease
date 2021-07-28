@@ -14,7 +14,7 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
     
     var recipe: Recipe?
     private var isRecipeFavorite = false
-    private var cellExtraInfoView = ExtraInfoView()
+    private var extraInfoView = ExtraInfoView() // Small inset. Shows preparation time's and nb of guests' values and icons
     
     @IBOutlet weak var recipePicture: UIImageView!
     @IBOutlet weak var recipeName: UILabel!
@@ -32,8 +32,14 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
         super.viewWillAppear(animated)
         fetchFavoriteState()
         setUpFavoriteButton()
-        cellExtraInfoView.recipe = recipe
-        cellExtraInfoView.configureView()
+        extraInfoView.recipe = recipe
+        extraInfoView.configureView()
+    }
+    
+    // MARK: - IBAction Methods
+    
+    @IBAction func didTapGetDirectionsButton(_ sender: Any) {
+        openRecipeWebsite()
     }
     
     // MARK: - Methods
@@ -41,11 +47,11 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
     private func setUpView() {
         setUpRecipeDetailsAndPicture()
         
-        cellExtraInfoView.translatesAutoresizingMaskIntoConstraints = false
-        cellExtraInfoView.roundingViewCorners(radius: 3)
+        extraInfoView.translatesAutoresizingMaskIntoConstraints = false
+        extraInfoView.roundingViewCorners(radius: 3)
         getDirectionsButton.titleLabel?.adjustsFontForContentSizeCategory = true
         getDirectionsButton.roundingButtonCorners(radius: 4)
-        view.addSubview(cellExtraInfoView)
+        view.addSubview(extraInfoView)
         
         activateConstraints()
     }
@@ -109,9 +115,9 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
     
     private func activateConstraints() {
         NSLayoutConstraint.activate([
-            cellExtraInfoView.topAnchor.constraint(equalToSystemSpacingBelow: recipePicture.topAnchor, multiplier: 1),
-            recipePicture.trailingAnchor.constraint(equalToSystemSpacingAfter: cellExtraInfoView.trailingAnchor, multiplier: 1),
-            cellExtraInfoView.leadingAnchor.constraint(equalToSystemSpacingAfter: recipePicture.leadingAnchor, multiplier: 43),
+            extraInfoView.topAnchor.constraint(equalToSystemSpacingBelow: recipePicture.topAnchor, multiplier: 1),
+            recipePicture.trailingAnchor.constraint(equalToSystemSpacingAfter: extraInfoView.trailingAnchor, multiplier: 1),
+            extraInfoView.leadingAnchor.constraint(lessThanOrEqualToSystemSpacingAfter: recipePicture.leadingAnchor, multiplier: 43)
         ])
     }
     
@@ -136,11 +142,5 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
             safariViewController.delegate = self
             present(safariViewController, animated: true)
         }
-    }
-    
-    // MARK: - IBAction Methods
-    
-    @IBAction func didTapGetDirectionsButton(_ sender: Any) {
-        openRecipeWebsite()
     }
 }

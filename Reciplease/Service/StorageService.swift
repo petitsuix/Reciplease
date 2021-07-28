@@ -16,7 +16,7 @@ class StorageService {
     
     // MARK: - Methods
     
-    private init(persistentContainer: NSPersistentContainer = AppDelegate.persistentContainer) {
+    init(persistentContainer: NSPersistentContainer = AppDelegate.persistentContainer) {
         self.viewContext = persistentContainer.viewContext
     }
     
@@ -38,7 +38,7 @@ class StorageService {
         recipeEntity.name = recipe.name
         recipeEntity.imageUrl = recipe.imageUrl
         recipeEntity.ingredients = try? JSONEncoder().encode(recipe.ingredients)
-        recipeEntity.totalTime = recipe.preparationTime
+        recipeEntity.totalTime = recipe.totalTime
         recipeEntity.numberOfGuests = recipe.numberOfGuests
         recipeEntity.recipeUrl = recipe.recipeUrl
         if viewContext.hasChanges {
