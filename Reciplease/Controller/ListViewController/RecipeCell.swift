@@ -11,7 +11,7 @@ class RecipeCell: UITableViewCell {
     
     // MARK: - Properties
     
-    private var extraInfoView = ExtraInfoView() // Small inset. Shows preparation time's and nb of guests' values and icons
+    private var extraInfoView = ExtraInfoView() // Small inset. Shows preparation time's and number of guests' values and icons
     private var cellBackgroundImage = UIImageView()
     private var recipeNameLabel = UILabel()
     private var ingredientsPreviewLabel = UILabel()
@@ -28,7 +28,6 @@ class RecipeCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         configureCell()
-        
     }
     
     // Can be used to replace the required init bellow, in order to prevent any modification through storyboard
@@ -40,8 +39,6 @@ class RecipeCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         configureCell()
-        // TODO:
-        extraInfoView.configureView()
     }
     
     private func configureCell() {

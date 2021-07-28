@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Core Data stack
     
-    static var persistentContainer: NSPersistentContainer {
+    static var persistentContainer: NSPersistentContainer { // Handles creation and management of the Core Data stack by handling the creation of NSManagedObjectModel, NSPersistentStoreCoordinator, and the NSManagedObjectContext.
         return (UIApplication.shared.delegate as! AppDelegate).persistentContainer
     }
     lazy var persistentContainer: NSPersistentContainer = {

@@ -33,7 +33,6 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
         fetchFavoriteState()
         setUpFavoriteButton()
         extraInfoView.recipe = recipe
-        extraInfoView.configureView()
     }
     
     // MARK: - IBAction Methods
@@ -47,6 +46,7 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
     private func setUpView() {
         setUpRecipeDetailsAndPicture()
         
+        extraInfoView.configureView()
         extraInfoView.translatesAutoresizingMaskIntoConstraints = false
         extraInfoView.roundingViewCorners(radius: 3)
         getDirectionsButton.titleLabel?.adjustsFontForContentSizeCategory = true

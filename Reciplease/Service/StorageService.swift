@@ -21,14 +21,14 @@ class StorageService {
     }
     
     func loadRecipes() throws -> [Recipe] {
-        let fetchRequest: NSFetchRequest<RecipesEntity> = RecipesEntity.fetchRequest()
+        let fetchRequest: NSFetchRequest<RecipesEntity> = RecipesEntity.fetchRequest() // Instantiating NSFetchRequest to retrieve a group of managed objects held in the persistent store
         let recipeEntities: [RecipesEntity]
         
         do { recipeEntities = try viewContext.fetch(fetchRequest) }
         catch { throw error }
         
         let recipes = recipeEntities.map { (recipeEntity) -> Recipe in
-            return Recipe(from: recipeEntity) // returns recipeEntity as Recipe
+            return Recipe(from: recipeEntity) // Returns recipeEntity as Recipe
         }
         return recipes
     }

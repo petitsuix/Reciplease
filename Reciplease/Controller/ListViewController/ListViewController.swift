@@ -61,20 +61,22 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
     @IBOutlet weak var tableView: UITableView!
     
     // MARK: - View life cycle methods
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureView()
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getDataFromCorrespondingDataMode()
+        fetchRecipesFromDataBase()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureView()
+        fetchRecipesFromApi()
     }
     
     // MARK: - Methods
     
     private func configureView() {
-        tableView.dataSource = self
+        tableView.dataSource = self // Assigning the controller (self) as the value of dataSource and delegate
         tableView.delegate = self
         
         self.tableView.tableFooterView = UIView()
@@ -94,7 +96,7 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         activityIndicator.stopAnimating()
     }
     
-    private func getDataFromCorrespondingDataMode() {
+    private func fetchRecipesFromDataBase() {
         if dataMode == .coreData {
             do {
                 recipes = try StorageService.shared.loadRecipes()
@@ -103,8 +105,12 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
                 } else {
                     viewState = .showData(recipes)
                 }
-            } catch { print(error) }
-        } else { // If dataMode == .api
+            } catch { print("erreur : \(error)"); alert("Can't load data", "Something went wrong, please try again later")}
+        }
+    }
+    
+    private func fetchRecipesFromApi() {
+        if dataMode == .api {
             fetchRecipes()
         }
     }
@@ -115,10 +121,10 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
             guard let self = self else { return }
             DispatchQueue.main.async { // Allows to modify UI from main thread
                 switch result {
-                case .success(let infoEdamamRequest) where infoEdamamRequest.recipes.isEmpty :
+                case .success(let infoRecipe) where infoRecipe.recipes.isEmpty :
                     self.viewState = .empty
-                case .success(let infoEdamamRequest):
-                    self.viewState = .showData(infoEdamamRequest.recipes)
+                case .success(let infoRecipe):
+                    self.viewState = .showData(infoRecipe.recipes)
                 case .failure(let error):
                     self.alert("Houston ?", "Something went wrong while trying to load recipes. Perhaps you should give it another try ?")
                     print(error)
@@ -127,6 +133,13 @@ class ListViewController: UIViewController, UINavigationBarDelegate {
         }
     }
     
+    private func deleteRecipe(recipe: Recipe) {
+        do {
+            try StorageService.shared.deleteRecipe(recipe)
+            fetchRecipesFromDataBase()
+        }
+        catch { print(error); alert("Could not delete recipe", "Please try again later")}
+    }
     // ⬇︎ Coded programmatically to be used in both Favorites and Search Results list views. Displays a simple view with a "nothing to show" message when their tableview is empty. 
     private func displayNoResultView() {
         let noResultTextView = UITextView.init(frame: self.view.frame)
@@ -157,7 +170,7 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedRecipe = recipes[indexPath.row]
+        let selectedRecipe = recipes[indexPath.row] // Takes the designated recipe contained in the recipes array. The selected recipe is found using table view's index path row as an index value.
         displayRecipeDetailFor(selectedRecipe)
     }
     
@@ -181,17 +194,9 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         guard dataMode == .coreData else { return nil }
         let action = UIContextualAction(style: .destructive, title: "Remove") { [weak self]
-            (action, view, completionHandler) in
-            do {
-                guard let recipes = self?.recipes else { return }
-                try StorageService.shared.deleteRecipe(recipes[indexPath.row])
-            }
-            catch {}
-            self?.recipes.remove(at: indexPath.row) // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            if self?.recipes.isEmpty == true {
-                self?.viewState = .empty
-            }
+            (_, _, completionHandler) in
+            guard let recipes = self?.recipes else { return }
+            self?.deleteRecipe(recipe: recipes[indexPath.row])
             completionHandler(true)
         }
         return UISwipeActionsConfiguration(actions: [action])
