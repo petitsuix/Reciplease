@@ -23,16 +23,16 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
     
     // MARK: - View life cycle methods
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setUpView()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchFavoriteState()
         setUpFavoriteButton()
         extraInfoView.recipe = recipe
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setUpView()
     }
     
     // MARK: - IBAction Methods
@@ -54,28 +54,6 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
         view.addSubview(extraInfoView)
         
         activateConstraints()
-    }
-    
-    private func addToFavorite() {
-        guard let recipe = recipe else { return }
-        do {
-            try StorageService.shared.saveRecipe(recipe)
-            fetchFavoriteState()
-        } catch {
-            print(ServiceError.savingError)
-            alert("Well, well...", "It seems this recipe can't be saved")
-        }
-    }
-    
-    private func removeFromFavorite() {
-        guard let recipe = recipe else { return }
-        do {
-            try StorageService.shared.deleteRecipe(recipe)
-            isRecipeFavorite = false
-        } catch {
-            print(ServiceError.deletingError)
-            alert("Oops...", "Could not reach and delete this recipe")
-        }
     }
     
     private func fetchFavoriteState() {
@@ -119,6 +97,28 @@ class DetailsViewController: UIViewController, SFSafariViewControllerDelegate {
             recipePicture.trailingAnchor.constraint(equalToSystemSpacingAfter: extraInfoView.trailingAnchor, multiplier: 1),
             extraInfoView.leadingAnchor.constraint(lessThanOrEqualToSystemSpacingAfter: recipePicture.leadingAnchor, multiplier: 43)
         ])
+    }
+    
+    private func addToFavorite() {
+        guard let recipe = recipe else { return }
+        do {
+            try StorageService.shared.saveRecipe(recipe)
+            fetchFavoriteState()
+        } catch {
+            print(ServiceError.savingError)
+            alert("Well, well...", "It seems this recipe can't be saved")
+        }
+    }
+    
+    private func removeFromFavorite() {
+        guard let recipe = recipe else { return }
+        do {
+            try StorageService.shared.deleteRecipe(recipe)
+            isRecipeFavorite = false
+        } catch {
+            print(ServiceError.deletingError)
+            alert("Oops...", "Could not reach and delete this recipe")
+        }
     }
     
     // MARK: - objc Methods

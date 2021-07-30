@@ -67,9 +67,3 @@ extension Recipe: Equatable {
     }
 }
 
-// struct Ingredient: Decodable {
-//    let text: String
-//    let weight: Double
-//    let image: String?
-//}
-

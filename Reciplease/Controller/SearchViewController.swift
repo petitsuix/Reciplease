@@ -20,13 +20,14 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var searchRecipesButton: UIButton!
     
     // MARK: - View life cycle methods
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureView()
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureView()
     }
     
     // MARK: - IBAction methods

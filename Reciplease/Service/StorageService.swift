@@ -21,14 +21,14 @@ class StorageService {
     }
     
     func loadRecipes() throws -> [Recipe] {
-        let fetchRequest: NSFetchRequest<RecipesEntity> = RecipesEntity.fetchRequest() // Instantiating NSFetchRequest to retrieve a group of managed objects held in the persistent store
+        let fetchRequest: NSFetchRequest<RecipesEntity> = RecipesEntity.fetchRequest() // Retrieves a group of managed objects held in the persistent store
         let recipeEntities: [RecipesEntity]
         
         do { recipeEntities = try viewContext.fetch(fetchRequest) }
         catch { throw error }
         
         let recipes = recipeEntities.map { (recipeEntity) -> Recipe in
-            return Recipe(from: recipeEntity) // Returns recipeEntity as Recipe
+            return Recipe(from: recipeEntity) // Model's init(from recipeEntity) allows to return a valid Recipe based on managed object's values
         }
         return recipes
     }
@@ -48,8 +48,8 @@ class StorageService {
     }
     
     func deleteRecipe(_ recipe: Recipe) throws {
-        let fetchRequest: NSFetchRequest<RecipesEntity> = RecipesEntity.fetchRequest()
-        let predicate = NSPredicate(format: "name == %@", recipe.name)
+        let fetchRequest: NSFetchRequest<RecipesEntity> = RecipesEntity.fetchRequest() // Instantiating NSFetchRequest to retrieve a group of managed objects held in the persistent store
+        let predicate = NSPredicate(format: "name == %@", recipe.name) // Condition used to constrain the search
         fetchRequest.predicate = predicate
         let recipeEntities: [RecipesEntity]
         do {
